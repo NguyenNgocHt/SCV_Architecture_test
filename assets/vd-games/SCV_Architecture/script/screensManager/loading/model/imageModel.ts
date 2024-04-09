@@ -13,7 +13,7 @@ export class imageModel implements loading_iImagesModel {
     }
     return this._instance;
   }
-  private _imageDirs = ["res/fonts/", "res/images/bgr/"];
+  private _imageDirs = ["res/fonts/", "res/images/bgr/", "res/images/texturePacker/avatar/"];
 
   getImagesDirsData(): string[] {
     return this._imageDirs;

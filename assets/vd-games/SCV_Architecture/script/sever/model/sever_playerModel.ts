@@ -1,5 +1,5 @@
-import { _decorator, Component, Node } from "cc";
-import { playerInfo } from "../../dataModel/playerDataType_sendToClient";
+import { _decorator } from "cc";
+import { playerInfo, playerInfoPackage } from "../../dataModel/playerDataType";
 const { ccclass, property } = _decorator;
 
 @ccclass("sever_playerModel")
@@ -13,16 +13,17 @@ export class sever_playerModel {
 
     return this._instance;
   }
-  private _PlayerInfo: playerInfo = null;
-  setPlayerInfo(data: playerInfo) {
+  private _PlayerInfo: playerInfoPackage = null;
+  setPlayerInfo(data: playerInfoPackage) {
     this._PlayerInfo = {
       ID: data.ID,
       playerName: data.playerName,
       avatarID: data.avatarID,
       money: data.money,
+      playerID: data.playerID,
     };
   }
-  getPlayerInfo(): playerInfo {
+  getPlayerInfo(): playerInfoPackage {
     return this._PlayerInfo;
   }
 }

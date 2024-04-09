@@ -1,4 +1,4 @@
-import { SEVER_COMAN_ID_OP } from "./../../common/define";
+import { SEVER_COMMAN_ID_OP } from "./../../common/define";
 import { loading_iLoadingView } from "./../../interfaces/loading_interfaces";
 import { _decorator, Component, Node } from "cc";
 import { sendDataToSever } from "../../network/sendDataToSever";
@@ -6,8 +6,9 @@ import { VDEventListener } from "../../../../../vd-framework/common/VDEventListe
 import { GAME_EVENT_DEFINE } from "../../network/networkDefine";
 import { loginDataType_sendToSever } from "../../dataModel/loginDataType_sendToSever";
 import { loginResult } from "../../dataModel/loginDataType_sendToClient";
-import { sever_iLoginModel, sever_iLoginSevice } from "../../interfaces/sever_interfaces";
+import { sever_iLoginModel, sever_iLoginResulModel, sever_iLoginSevice } from "../../interfaces/sever_interfaces";
 import { sever_loginModel } from "../model/sever_loginModel";
+import { sever_loginResultModel } from "../model/sever_loginResultModel";
 const { ccclass, property } = _decorator;
 
 @ccclass("sever_loginSevice")
@@ -21,7 +22,8 @@ export class sever_loginSevice implements sever_iLoginSevice {
 
     return this._instance;
   }
-  _iLoginResult: sever_iLoginModel = null;
+  _iLoginResult: sever_iLoginResulModel = null;
+  _iLoginSendToSever: sever_iLoginModel = null;
 
   _isStatusUserNamer: boolean = false;
   _isStatusPassword: boolean = false;
@@ -30,7 +32,7 @@ export class sever_loginSevice implements sever_iLoginSevice {
   _loginResult: loginResult = null;
   init() {
     this.registerEvent();
-    this.initInterfaces(sever_loginModel.instance);
+    this.initInterfaces(sever_loginResultModel.instance, sever_loginModel.instance);
   }
   registerEvent() {
     VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_LOGIN_SEVICE, this.checkLoginData.bind(this));
@@ -38,8 +40,9 @@ export class sever_loginSevice implements sever_iLoginSevice {
   offEvent() {
     VDEventListener.off(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_LOGIN_SEVICE, this.checkLoginData.bind(this));
   }
-  initInterfaces(iLoginModel: sever_iLoginModel) {
-    this._iLoginResult = iLoginModel;
+  initInterfaces(iLoginResultModel: sever_iLoginResulModel, iLoginSendToSever: sever_iLoginModel) {
+    this._iLoginResult = iLoginResultModel;
+    this._iLoginSendToSever = iLoginSendToSever;
   }
   checkLoginData(data: loginDataType_sendToSever) {
     let dataCheck = data;
@@ -86,7 +89,7 @@ export class sever_loginSevice implements sever_iLoginSevice {
   setLoginResultData() {
     let loginResult: loginResult = null;
     loginResult = {
-      ID: SEVER_COMAN_ID_OP.LOGIN_RESULT_ID,
+      ID: SEVER_COMMAN_ID_OP.LOGIN_RESULT_ID,
       isLogin: this._isSatusLogin,
       isUserName: this._isStatusUserNamer,
       isPassword: this._isStatusPassword,
@@ -98,6 +101,9 @@ export class sever_loginSevice implements sever_iLoginSevice {
     return this._iLoginResult.getLoginData();
   }
   sendLoginDataToLoginControler() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER_LOGIN, this._isSatusLogin);
+    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER, this._isSatusLogin);
+  }
+  getLoginDataSendToSever(): loginDataType_sendToSever {
+    return this._iLoginSendToSever.getLoginData_sendToSever();
   }
 }

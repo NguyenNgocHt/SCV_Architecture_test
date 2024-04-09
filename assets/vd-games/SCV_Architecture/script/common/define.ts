@@ -13,10 +13,10 @@ export const CLIENT_COMMAN_ID_OP = {
   LOGIN_ID: 1000,
 };
 
-export const SEVER_COMAN_ID_IP = {
+export const SEVER_COMMAN_ID_IP = {
   LOGIN_ID: 1000,
 };
-export const SEVER_COMAN_ID_OP = {
+export const SEVER_COMMAN_ID_OP = {
   LOGIN_RESULT_ID: 2000,
   PLAYER_INFO_ID: 2001,
 };

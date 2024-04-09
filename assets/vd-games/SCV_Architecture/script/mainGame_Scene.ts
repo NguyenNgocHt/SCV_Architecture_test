@@ -8,6 +8,8 @@ import { sendDataToSever } from "./network/sendDataToSever";
 import { sever_loginModel } from "./sever/model/sever_loginModel";
 import { sever_loginSevice } from "./sever/sevice/sever_loginSevice";
 import { server_loginControler } from "./sever/controler/server_loginControler";
+import { sever_playerControler } from "./sever/controler/sever_playerControler";
+import { eventListener } from "./network/eventListener";
 const { ccclass, property } = _decorator;
 
 @ccclass("mainGame_Scene")
@@ -41,6 +43,8 @@ export class mainGame_Scene extends Component {
     sever_loginModel.instance.registerEvent();
     sever_loginSevice.instance.init();
     server_loginControler.instance.init();
+    sever_playerControler.instance.init();
+    eventListener.instance.registerEvent();
   }
   onDestroy() {
     VDAudioManager.instance.destroy();

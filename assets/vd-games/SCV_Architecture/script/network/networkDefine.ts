@@ -33,5 +33,10 @@ export const GAME_EVENT_DEFINE = {
   //sever_loginModel
   SEND_LOGIN_DATA_TO_LOGIN_SEVICE: "send login data to login sevice",
   //sever_loginSevice
-  SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER_LOGIN: "send login result to login controler_login_success",
+  SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER: "send login result to login controler",
+  //login Controler
+  SEND_LOGIN_DATA_TO_CLIENT: "send login data to client",
+  SEND_LOGIN_DATA_TO_PLAYER_CONTROLER: "send login data to player controler",
+  //playerControler
+  SEND_PLAYER_INFO_TO_CLIENT: "send player info to client",
 };

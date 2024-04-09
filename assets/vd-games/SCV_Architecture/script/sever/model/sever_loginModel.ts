@@ -1,14 +1,14 @@
 import { _decorator } from "cc";
 import { VDEventListener } from "../../../../../vd-framework/common/VDEventListener";
 import { GAME_EVENT_DEFINE } from "../../network/networkDefine";
-import { SEVER_COMAN_ID_IP } from "../../common/define";
+import { SEVER_COMMAN_ID_IP } from "../../common/define";
 import { loginDataType_sendToSever } from "../../dataModel/loginDataType_sendToSever";
 import { loginResult } from "../../dataModel/loginDataType_sendToClient";
-import { sever_iLoginModel } from "../../interfaces/sever_interfaces";
+
 const { ccclass, property } = _decorator;
 
 @ccclass("sever_loginModel")
-export class sever_loginModel implements sever_iLoginModel {
+export class sever_loginModel implements sever_loginModel {
   private static _instance: sever_loginModel = null!;
 
   public static get instance(): sever_loginModel {
@@ -18,7 +18,7 @@ export class sever_loginModel implements sever_iLoginModel {
 
     return this._instance;
   }
-  private loginData: loginResult = null;
+  private loginDataSendToSever: loginDataType_sendToSever = null;
   registerEvent() {
     VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_NODE_DATA_TO_SEVER, this.handleLoginData.bind(this));
   }
@@ -31,21 +31,21 @@ export class sever_loginModel implements sever_iLoginModel {
     let dataID = dataJson.id;
     console.log("data json", dataJson, dataID);
     switch (dataID) {
-      case SEVER_COMAN_ID_IP.LOGIN_ID:
+      case SEVER_COMMAN_ID_IP.LOGIN_ID:
         console.log("data json", dataJson);
+        this.setLoginData_sendToSever(dataJson);
         VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_LOGIN_SEVICE, dataJson);
         break;
     }
   }
-  setLoginData(data: loginResult) {
-    this.loginData = {
-      ID: data.ID,
-      isLogin: data.isLogin,
-      isUserName: data.isUserName,
-      isPassword: data.isPassword,
+  setLoginData_sendToSever(data: loginDataType_sendToSever) {
+    this.loginDataSendToSever = {
+      id: data.id,
+      userName: data.userName,
+      password: data.password,
     };
   }
-  getLoginData(): loginResult {
-    return this.loginData;
+  getLoginData_sendToSever(): loginDataType_sendToSever {
+    return this.loginDataSendToSever;
   }
 }

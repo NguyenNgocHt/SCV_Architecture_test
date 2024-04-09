@@ -23,10 +23,10 @@ export class server_loginControler {
     this.initInterfaces(sever_loginSevice.instance);
   }
   registerEvent() {
-    VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER_LOGIN, this.getLoginResulData.bind(this));
+    VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER, this.getLoginResulData.bind(this));
   }
   offEvent() {
-    VDEventListener.off(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER_LOGIN, this.getLoginResulData.bind(this));
+    VDEventListener.off(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER, this.getLoginResulData.bind(this));
   }
   initInterfaces(iLoginSevice: sever_iLoginSevice) {
     this._iLoginSevice = iLoginSevice;
@@ -34,8 +34,14 @@ export class server_loginControler {
   getLoginResulData(isStatusLogin: boolean) {
     if (isStatusLogin) {
       console.log("gửi kết quả về client đồng thời gọi playerControler để gửi playerInfoModel về client");
+      let loginResultData = this._iLoginSevice.getLoginResultData();
+      let loginDataSendToSever = this._iLoginSevice.getLoginDataSendToSever();
+      VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_CLIENT, JSON.stringify(loginResultData));
+      VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_PLAYER_CONTROLER, loginDataSendToSever);
     } else {
       console.log("gửi kết quả login về client");
+      let loginResultData = this._iLoginSevice.getLoginResultData();
+      VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_CLIENT, JSON.stringify(loginResultData));
     }
   }
 }
