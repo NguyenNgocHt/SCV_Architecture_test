@@ -5,3 +5,18 @@ export const PATH = {
   POPUP_NOTIFY: "res/prefabs/popup/popup_notify",
   LOGIN_SCREEN: "res/prefabs/screen/login_screen",
 };
+export const CLIENT_COMMAN_ID_IP = {
+  LOGIN_RESULT_ID: 2000,
+  PLAYER_INFO_ID: 2001,
+};
+export const CLIENT_COMMAN_ID_OP = {
+  LOGIN_ID: 1000,
+};
+
+export const SEVER_COMAN_ID_IP = {
+  LOGIN_ID: 1000,
+};
+export const SEVER_COMAN_ID_OP = {
+  LOGIN_RESULT_ID: 2000,
+  PLAYER_INFO_ID: 2001,
+};

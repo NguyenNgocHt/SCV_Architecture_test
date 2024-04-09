@@ -3,12 +3,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('loginSevice')
 export class loginSevice extends Component {
-    start() {
-
-    }
-
-    update(deltaTime: number) {
-        
-    }
+    
 }
-
+
+

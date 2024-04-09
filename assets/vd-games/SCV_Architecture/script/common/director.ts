@@ -14,4 +14,5 @@ export class director extends Component {
     return this._instance;
   }
   homeScreen: HomeScreenView | null = null;
+  
 }
