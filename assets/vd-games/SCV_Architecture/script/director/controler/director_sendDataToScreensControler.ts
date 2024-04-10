@@ -6,7 +6,7 @@ import { playerInfo, playerInfoPackage } from "../../dataModel/playerDataType";
 const { ccclass, property } = _decorator;
 
 @ccclass("director_sendDataToScreensControler")
-export class director_sendDataToScreensControler extends Component {
+export class director_sendDataToScreensControler  {
   private static _instance: director_sendDataToScreensControler = null!;
 
   public static get instance(): director_sendDataToScreensControler {

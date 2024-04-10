@@ -8,14 +8,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass("home_playerModel")
 export class home_playerModel implements home_iPlayerModel {
-  private static _instance: home_playerModel | null = null;
-
-  public static get instance(): home_playerModel {
-    if (this._instance == null) {
-      this._instance = new home_playerModel();
-    }
-    return this._instance;
-  }
   private _playerInfo: playerInfoPackage = null;
 
   registerEvent() {

@@ -3,12 +3,12 @@ import { VDEventListener } from "../../../../../vd-framework/common/VDEventListe
 import { GAME_EVENT_DEFINE } from "../../network/networkDefine";
 import { SEVER_COMMAN_ID_IP } from "../../common/define";
 import { loginDataType_sendToSever } from "../../dataModel/loginDataType_sendToSever";
-import { loginResult } from "../../dataModel/loginDataType_sendToClient";
+import { sever_iLoginModel } from "../../interfaces/sever_interfaces";
 
 const { ccclass, property } = _decorator;
 
 @ccclass("sever_loginModel")
-export class sever_loginModel implements sever_loginModel {
+export class sever_loginModel implements sever_iLoginModel {
   private static _instance: sever_loginModel = null!;
 
   public static get instance(): sever_loginModel {

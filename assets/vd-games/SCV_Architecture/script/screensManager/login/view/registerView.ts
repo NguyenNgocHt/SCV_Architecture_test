@@ -4,17 +4,22 @@ import { _decorator, Component, Node } from "cc";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
 import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
 import { registerDataType_sendToSever } from "../../../dataModel/loginDataType_sendToSever";
+import { IRegisterController, IRegisterView } from "../../../interfaces/login_interfaces";
 const { ccclass, property } = _decorator;
 
 @ccclass("registerView")
-export class registerView extends Component {
+export class registerView extends Component implements IRegisterView {
   @property(EditBox)
   NameUser: EditBox = null;
   @property(EditBox)
   Password: EditBox = null;
   @property(EditBox)
   PasswordConfirm: EditBox = null;
+  private _registerController: IRegisterController = null;
   start() {}
+  init(registerControl: IRegisterController) {
+    this._registerController = registerControl;
+  }
   onClickRegister() {
     let msgData: registerDataType_sendToSever = null;
     msgData = {
@@ -24,12 +29,12 @@ export class registerView extends Component {
       passwordConfirm: this.PasswordConfirm.string,
     };
     console.log("msgData", msgData);
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.REGISTER_DATA, msgData);
+    this._registerController.checkRegisterData(msgData);
   }
   onClickLoginButton() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.ON_CLICK_LOGIN_BUTTON);
+    this._registerController.AuthCtr_LoginNode();
   }
   onClickPlayNowButton() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.ONCLICK_PLAY_NOW_BUTTON_FROM_REGISTER_NODE);
+    this._registerController.callToAuthCtr_CallPlayNowNode();
   }
 }

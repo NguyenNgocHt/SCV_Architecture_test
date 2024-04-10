@@ -1,36 +1,39 @@
-import { login_iRegisterSevice } from "./../../../interfaces/login_interfaces";
+import { IAuthController, IRegisterController, IRegisterView, login_iRegisterSevice } from "./../../../interfaces/login_interfaces";
 import { _decorator, Component, Node } from "cc";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
 import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
 import { registerSevice } from "../sevice/registerSevice";
+import { registerView } from "../view/registerView";
 const { ccclass, property } = _decorator;
 
 @ccclass("registerControler")
-export class registerControler extends Component {
+export class registerControler extends Component implements IRegisterController {
+  @property(registerView)
+  RegisterView: registerView = null;
+
   private _iRegisterSevice: login_iRegisterSevice = null;
-  start() {
-    this.registerEvent();
-    this.initInterfaces(registerSevice.instance);
+  private _registerView: IRegisterView = null;
+  private _authController: IAuthController = null;
+
+  init(authController: IAuthController) {
+    this.initInterfaces(this.RegisterView, authController);
+    this._registerView.init(this);
   }
-  initInterfaces(iResgisterSevice: login_iRegisterSevice) {
-    this._iRegisterSevice = iResgisterSevice;
+
+  initInterfaces(registerView: IRegisterView, authController: IAuthController) {
+    this._iRegisterSevice = new registerSevice();
+    this._registerView = registerView;
+    this._authController = authController;
   }
-  registerEvent() {
-    VDEventListener.on(GAME_EVENT_DEFINE.ON_CLICK_LOGIN_BUTTON, this.AuthCtr_LoginNode.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.ONCLICK_PLAY_NOW_BUTTON_FROM_REGISTER_NODE, this.callToAuthCtr_CallPlayNowNode.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.REGISTER_DATA, this.checkRegisterData.bind(this));
-  }
-  offEvent() {
-    VDEventListener.off(GAME_EVENT_DEFINE.ON_CLICK_LOGIN_BUTTON, this.AuthCtr_LoginNode.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.ONCLICK_PLAY_NOW_BUTTON_FROM_REGISTER_NODE, this.callToAuthCtr_CallPlayNowNode.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.REGISTER_DATA, this.checkRegisterData.bind(this));
-  }
+
   AuthCtr_LoginNode() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.CALL_LOGIN_NODE, this.node);
+    this._authController.loginNodeControl(this.node);
   }
+
   callToAuthCtr_CallPlayNowNode() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.CALL_PLAY_NOW_NODE_FROM_REGISTER_CTR, this.node);
+    this._authController.playNowNodeControl(this.node);
   }
+
   checkRegisterData(msgData) {
     this._iRegisterSevice.checkRegisterData(msgData);
   }

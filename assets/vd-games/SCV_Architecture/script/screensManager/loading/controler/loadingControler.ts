@@ -1,7 +1,15 @@
 import { prefabModel } from "./../model/prefabModel";
 import { audioModel } from "./../model/audioModel";
 import { _decorator, Component, Prefab } from "cc";
-import { loading_iAssetsSevice, loading_iAudioModel, loading_iAudioSevice, loading_iImagesModel, loading_iLoadingView, loading_iPrefabModel } from "../../../interfaces/loading_interfaces";
+import {
+  ILoadingController,
+  loading_iAssetsSevice,
+  loading_iAudioModel,
+  loading_iAudioSevice,
+  loading_iImagesModel,
+  loading_iLoadingView,
+  loading_iPrefabModel,
+} from "../../../interfaces/loading_interfaces";
 import { audioSevice } from "../sevice/audioSevice";
 import { assetsSevice } from "../sevice/assetsSevice";
 import { imageModel } from "../model/imageModel";
@@ -16,7 +24,7 @@ import { director_sendDataToScreensControler } from "../../../director/controler
 const { ccclass, property } = _decorator;
 
 @ccclass("loadingControler")
-export class loadingControler extends Component {
+export class loadingControler extends Component implements ILoadingController {
   @property(loadingView)
   LoadingView: loadingView = null;
   _iAudioSevice: loading_iAudioSevice = null;
@@ -24,60 +32,36 @@ export class loadingControler extends Component {
   _iLoadingView: loading_iLoadingView = null;
   progressCurrent: number = 0;
   onLoad() {
-    this.initInterfaces(audioSevice.instance, assetsSevice.instance, audioModel.instance, imageModel.instance, prefabModel.instance, this.LoadingView);
+    this.initInterfaces(this.LoadingView);
   }
 
   start() {
-    this.RegisterEvent();
     this.loadingStart();
     this.setVersion(Config.versionGame);
   }
 
-  initInterfaces(
-    iAudioSevice: loading_iAudioSevice,
-    iAssetSevice: loading_iAssetsSevice,
-    iAudioModel: loading_iAudioModel,
-    iImageModel: loading_iImagesModel,
-    iPrefabModel: loading_iPrefabModel,
-    iloadingView: loading_iLoadingView
-  ) {
-    this.initInterfaces_isMe(iAudioSevice, iAssetSevice, iloadingView);
-    this.initInterfaces_audioSevice(iAudioModel);
-    this.initInterfaces_assetsSevice(iImageModel, iPrefabModel, iAudioModel);
+  initInterfaces(iloadingView: loading_iLoadingView) {
+    this.initInterfaces_isMe(iloadingView);
+    this.initInterfaces_audioSevice();
+    this.initInterfaces_assetsSevice();
+    this.initInterfaces_loadingView();
   }
-
-  initInterfaces_isMe(iAudioSevice: loading_iAudioSevice, iAssetSevice: loading_iAssetsSevice, iLoadingView: loading_iLoadingView) {
-    this._iAudioSevice = iAudioSevice;
-    this._iAssetsSevice = iAssetSevice;
+  initInterfaces_isMe(iLoadingView: loading_iLoadingView) {
+    this._iAudioSevice = new audioSevice();
+    this._iAssetsSevice = new assetsSevice();
     this._iLoadingView = iLoadingView;
   }
 
-  initInterfaces_audioSevice(iAudioModel: loading_iAudioModel) {
-    this._iAudioSevice.initInterfaces(iAudioModel);
+  initInterfaces_audioSevice() {
+    this._iAudioSevice.initInterfaces();
   }
 
-  initInterfaces_assetsSevice(iImagesModel: loading_iImagesModel, iPrefabModel: loading_iPrefabModel, iAudioModel: loading_iAudioModel) {
-    this._iAssetsSevice.initInterfaces(iImagesModel, iPrefabModel, iAudioModel);
+  initInterfaces_assetsSevice() {
+    this._iAssetsSevice.initInterfaces(this);
   }
 
-  RegisterEvent() {
-    VDEventListener.on(GAME_EVENT_DEFINE.START_LOADING_ASSETS, this.startLoadingAsset.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.PROGRESS_BAR_POINT, this.updateLoadingView_progressBar.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.GET_PROGRESS_BAR_CURRENT, this.getProgressCurrent.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.GET_AUDIOS, this.getAudiosFromAudioSevice.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.INIT_AUDIOS, this.initAudios.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.RESOURCE_LOADING_ERR, this.showPopupMessage.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.SCREEN_CHANGE, this.screenChange.bind(this));
-  }
-
-  OffEvent() {
-    VDEventListener.off(GAME_EVENT_DEFINE.START_LOADING_ASSETS, this.startLoadingAsset.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.PROGRESS_BAR_POINT, this.updateLoadingView_progressBar.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.GET_PROGRESS_BAR_CURRENT, this.getProgressCurrent.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.GET_AUDIOS, this.getAudiosFromAudioSevice.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.INIT_AUDIOS, this.initAudios.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.RESOURCE_LOADING_ERR, this.showPopupMessage.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.SCREEN_CHANGE, this.screenChange.bind(this));
+  initInterfaces_loadingView() {
+    this._iLoadingView.init(this);
   }
   //controler audio sevice
   loadingStart() {
@@ -92,10 +76,6 @@ export class loadingControler extends Component {
   //controler assets sevice
   startLoadingAsset() {
     this._iAssetsSevice.loadingAssets();
-  }
-  getProgressCurrent() {
-    this.progressCurrent = this._iLoadingView.getProgressBar();
-    this._iAssetsSevice.setPoint_progressBarCurrent(this.progressCurrent);
   }
 
   getAudiosFromAudioSevice() {

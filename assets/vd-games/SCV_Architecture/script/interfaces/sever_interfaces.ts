@@ -6,7 +6,9 @@ export interface sever_iLoginResulModel {
   setLoginData(data: loginResult): void;
   getLoginData(): loginResult;
 }
-export interface sever_iLayerInfoModel {}
+export interface sever_iLayerInfoModel { }
+
+//ILoginSevice
 export interface sever_iLoginSevice {
   getLoginResultData(): loginResult;
   getLoginDataSendToSever(): loginDataType_sendToSever;
@@ -29,4 +31,5 @@ export interface sever_iPlayerListModel {
 export interface sever_iLoginModel {
   setLoginData_sendToSever(data: loginDataType_sendToSever): void;
   getLoginData_sendToSever(): loginDataType_sendToSever;
+  registerEvent();
 }

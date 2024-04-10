@@ -3,6 +3,7 @@ export const Path = {
   AVATAR_TEXTURE_PACKER: "res/images/texturePacker/avatar/avatarGroup",
   TRANSITION_CLOUD: "res/prefabs/transition/transition_cloud",
   HOME_SCREEN: "res/prefabs/screen/home_screen",
+  POPUP_NOTIFY: "res/prefabs/popup/popup_notify",
 };
 export const LOCAL_STORAGE_KEY_WORD = {
   PLAYER_LIST: "player list",

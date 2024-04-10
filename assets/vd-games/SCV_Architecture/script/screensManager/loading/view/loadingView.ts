@@ -1,5 +1,5 @@
 import { _decorator, Component, sys, Label } from "cc";
-import { loading_iLoadingView } from "../../../interfaces/loading_interfaces";
+import { ILoadingController, loading_iLoadingView } from "../../../interfaces/loading_interfaces";
 import { ProgressBar } from "cc";
 import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
@@ -7,30 +7,27 @@ import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
 import { PATH } from "../../../common/define";
 import VDBasePopup from "../../../../../../vd-framework/ui/VDBasePopup";
 import { PopupNotify } from "../../../popups/PopupNotify";
+import { Path } from "../../../common/Path";
 const { ccclass, property } = _decorator;
 
 @ccclass("loadingView")
 export class loadingView extends Component implements loading_iLoadingView {
-  private static _instance: loadingView = null!;
-
-  public static get instance(): loadingView {
-    if (this._instance == null) {
-      this._instance = new loadingView();
-    }
-    return this._instance;
-  }
   @property(ProgressBar)
   loadingProgress: ProgressBar = null!;
 
   @property(Label)
   lbVersion: Label = null!;
+  private _loadingControler: ILoadingController = null;
 
+  init(loadingController: ILoadingController) {
+    this._loadingControler = loadingController;
+  }
   startView() {
     this.loadingProgress.progress = 0;
     this.updateProgressBar(0);
-    VDScreenManager.instance.assetBundle.load("res/prefabs/popup/popup_notify", (err, data) => {
+    VDScreenManager.instance.assetBundle.load(Path.POPUP_NOTIFY, (err, data) => {
       if (!err) {
-        VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.START_LOADING_ASSETS);
+        this._loadingControler.startLoadingAsset();
       } else {
         console.log("load error  " + err + " _loadAsset");
         if (sys.isBrowser) {
@@ -53,7 +50,7 @@ export class loadingView extends Component implements loading_iLoadingView {
         popupDisplay.setupPopup(mesenger, [
           () => {
             VDScreenManager.instance.hidePopup(true);
-            VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.START_LOADING_ASSETS);
+            this._loadingControler.startLoadingAsset();
           },
           () => {
             VDScreenManager.instance.hidePopup(true);
@@ -70,6 +67,6 @@ export class loadingView extends Component implements loading_iLoadingView {
     this.lbVersion && (this.lbVersion.string = "v" + version);
   }
   onClick_screenChange() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SCREEN_CHANGE);
+    this._loadingControler.screenChange();
   }
 }

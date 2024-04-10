@@ -3,12 +3,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass('playNowSevice')
 export class playNowSevice extends Component {
-    start() {
-
-    }
-
-    update(deltaTime: number) {
-        
-    }
+  
 }
 

@@ -1,14 +1,5 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator } from "cc";
 const { ccclass, property } = _decorator;
 
-@ccclass('director_sendDataToScreensSevice')
-export class director_sendDataToScreensSevice extends Component {
-    start() {
-
-    }
-
-    update(deltaTime: number) {
-        
-    }
-}
-
+@ccclass("director_sendDataToScreensSevice")
+export class director_sendDataToScreensSevice {}

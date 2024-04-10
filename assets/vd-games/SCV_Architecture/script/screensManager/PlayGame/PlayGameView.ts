@@ -3,7 +3,6 @@ import { _decorator, Component, Node } from "cc";
 import VDBasePopup from "../../../../../vd-framework/ui/VDBasePopup";
 import VDBaseScreen from "../../../../../vd-framework/ui/VDBaseScreen";
 import { Popup1 } from "../../popups/Popup1";
-import { HomeScreen } from "../homeView/HomeScreen";
 import VDScreenManager from "../../../../../vd-framework/ui/VDScreenManager";
 const { ccclass, property } = _decorator;
 
@@ -15,8 +14,6 @@ export class dm_PlayScreen3 extends Component {
   onClickBtnBackToScreen1() {
     log(`onClickBtnBackToScreen1 1`);
     VDScreenManager.instance.popToRootScreen();
-    // VDScreenManager.instance.popToScreen(dm_PlayScreen);
-    // VDScreenManager.instance.popToScreen('dm_PlayScreen');
   }
 
   onClickBtnShowPopup() {

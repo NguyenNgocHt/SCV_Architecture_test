@@ -1,3 +1,4 @@
+import { registerDataType_sendToSever } from "./../../../dataModel/loginDataType_sendToSever";
 import { VDScrollBarDirection } from "./../../../../../../vd-framework/ui/VDScrollBar";
 import { _decorator, Component, Node } from "cc";
 import { loginControler } from "./loginControler";
@@ -5,29 +6,38 @@ import { registerControler } from "./registerControler";
 import { authView } from "../view/authView";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
 import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
-import { login_iAuthView } from "../../../interfaces/login_interfaces";
+import { IAuthController, IRegisterController, login_iAuthView } from "../../../interfaces/login_interfaces";
 import { playNowControler } from "./playNowControler";
 const { ccclass, property } = _decorator;
 
 @ccclass("authControler")
-export class authControler extends Component {
+export class authControler extends Component implements IAuthController {
   @property(loginControler)
   LoginControler: loginControler = null;
+
   @property(registerControler)
   RegisterControler: registerControler = null;
+
   @property(authView)
   AuthView: authView = null;
+
   @property(playNowControler)
   PlayNowControler: playNowControler = null;
 
   private _iAuthView: login_iAuthView = null;
+  private _registerController: IRegisterController = null;
 
   start() {
     this.registerEvent();
-    this.initInterfaces(this.AuthView);
+    this.initInterfaces(this.AuthView, this.RegisterControler);
+    this.initRegisterController();
   }
-  initInterfaces(iAuthView: login_iAuthView) {
+  initInterfaces(iAuthView: login_iAuthView, registerControler: registerControler) {
     this._iAuthView = iAuthView;
+    this._registerController = registerControler;
+  }
+  initRegisterController() {
+    this._registerController.init(this);
   }
   registerEvent() {
     //from login control

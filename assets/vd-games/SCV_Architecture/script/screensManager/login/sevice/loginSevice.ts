@@ -3,19 +3,11 @@ import { VDEventListener } from "../../../../../../vd-framework/common/VDEventLi
 import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
 import { loginResult } from "../../../dataModel/loginDataType_sendToClient";
 import { BYTEDANCE } from "cc/env";
+import { login_iLoginSevice } from "../../../interfaces/login_interfaces";
 const { ccclass, property } = _decorator;
 
 @ccclass("loginSevice")
-export class loginSevice {
-  private static _instance: loginSevice = null!;
-
-  public static get instance(): loginSevice {
-    if (this._instance == null) {
-      this._instance = new loginSevice();
-    }
-
-    return this._instance;
-  }
+export class loginSevice implements login_iLoginSevice {
   registerEvent() {
     VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_SEVICE, this.checkLoginResultData.bind(this));
   }

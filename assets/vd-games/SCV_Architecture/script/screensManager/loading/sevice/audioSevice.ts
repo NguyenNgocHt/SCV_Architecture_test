@@ -4,25 +4,16 @@ import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
 import { assetManager } from "cc";
 import VDLocalDataManager from "../../../../../../vd-framework/common/VDLocalDataManager";
 import { loading_iAudioModel, loading_iAudioSevice } from "../../../interfaces/loading_interfaces";
+import { audioModel } from "../model/audioModel";
 const { ccclass, property } = _decorator;
 
 @ccclass("audioSevice")
 export class audioSevice implements loading_iAudioSevice {
-  private static _instance: audioSevice = null!;
-
-  public static get instance(): audioSevice {
-    if (this._instance == null) {
-      this._instance = new audioSevice();
-    }
-
-    return this._instance;
-  }
-
   private _audios: { [key: string]: string } = {};
   private _iAudioModel: loading_iAudioModel = null;
 
-  initInterfaces(iAudioModel: loading_iAudioModel) {
-    this._iAudioModel = iAudioModel;
+  initInterfaces() {
+    this._iAudioModel = new audioModel();
   }
   loadingAudio() {
     console.log("loading Audio start");

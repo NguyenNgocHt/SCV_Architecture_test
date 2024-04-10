@@ -1,19 +1,12 @@
-import { _decorator, Component, Node } from "cc";
+import { _decorator } from "cc";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
 import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
 import { loginResult } from "../../../dataModel/loginDataType_sendToClient";
+import { login_iLoginModel } from "../../../interfaces/login_interfaces";
 const { ccclass, property } = _decorator;
 
 @ccclass("login_loginModel")
-export class login_loginModel {
-  private static _instance: login_loginModel | null = null;
-
-  public static get instance(): login_loginModel {
-    if (this._instance == null) {
-      this._instance = new login_loginModel();
-    }
-    return this._instance;
-  }
+export class login_loginModel implements login_iLoginModel {
   _loginResult: loginResult = null;
   registerEvent() {
     VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_MODEL, this.handleLoginResult.bind(this));
