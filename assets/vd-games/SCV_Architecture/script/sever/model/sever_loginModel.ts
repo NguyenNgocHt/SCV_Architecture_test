@@ -34,7 +34,8 @@ export class sever_loginModel implements sever_loginModel {
       case SEVER_COMMAN_ID_IP.LOGIN_ID:
         console.log("data json", dataJson);
         this.setLoginData_sendToSever(dataJson);
-        VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_LOGIN_SEVICE, dataJson);
+        // VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_LOGIN_SEVICE, dataJson);
+        VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.LOGIN_PACKAGE_HAS_ARRIVED_AT_THE_SERVER);
         break;
     }
   }

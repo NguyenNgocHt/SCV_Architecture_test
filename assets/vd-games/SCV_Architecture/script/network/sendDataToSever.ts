@@ -15,14 +15,21 @@ export class sendDataToSever {
     return this._instance;
   }
   registerEvent() {
-    VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_NODE_DATA_FROM_DIRECTOR, this.sendDataToSever.bind(this));
+    VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_NODE_DATA_FROM_DIRECTOR, this.sendDataToSever_loginNode.bind(this));
+    VDEventListener.on(GAME_EVENT_DEFINE.SEND_PLAYER_IN_HOME_NODE_DATA_FROM_DIRECTOR, this.sendDataToSever_playerInHome.bind(this));
   }
   offEvent() {
-    VDEventListener.off(GAME_EVENT_DEFINE.SEND_LOGIN_NODE_DATA_FROM_DIRECTOR, this.sendDataToSever.bind(this));
+    VDEventListener.off(GAME_EVENT_DEFINE.SEND_LOGIN_NODE_DATA_FROM_DIRECTOR, this.sendDataToSever_loginNode.bind(this));
+    VDEventListener.off(GAME_EVENT_DEFINE.SEND_PLAYER_IN_HOME_NODE_DATA_FROM_DIRECTOR, this.sendDataToSever_playerInHome.bind(this));
   }
-  sendDataToSever(data) {
+  sendDataToSever_loginNode(data) {
     let msg = JSON.stringify(data);
     console.log("msg", msg);
     VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_NODE_DATA_TO_SEVER, msg);
+  }
+  sendDataToSever_playerInHome(data) {
+    let msg = JSON.stringify(data);
+    console.log("msg", msg);
+    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_PLAYER_IN_HOME_DATA_TO_SEVER, msg);
   }
 }

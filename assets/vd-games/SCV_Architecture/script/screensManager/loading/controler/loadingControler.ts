@@ -11,9 +11,8 @@ import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
 import { Config } from "../../../common/Config";
 import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
 import VDBaseScreen from "../../../../../../vd-framework/ui/VDBaseScreen";
-import { director } from "../../../common/director";
-import { HomeScreenView } from "../../home/view/HomeScreenView";
 import { PATH } from "../../../common/define";
+import { director_sendDataToScreensControler } from "../../../director/controler/director_sendDataToScreensControler";
 const { ccclass, property } = _decorator;
 
 @ccclass("loadingControler")
@@ -126,7 +125,7 @@ export class loadingControler extends Component {
     VDScreenManager.instance.pushScreen(
       play_screen,
       (screen: VDBaseScreen) => {
-        director.instance.homeScreen = screen as HomeScreenView;
+        director_sendDataToScreensControler.instance.isLoginScreen = true;
       },
       true
     );

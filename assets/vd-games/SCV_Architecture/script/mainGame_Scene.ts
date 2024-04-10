@@ -3,13 +3,20 @@ import AsyncTaskMgr from "../../../vd-framework/async-task/AsyncTaskMgr";
 import { VDAudioManager } from "../../../vd-framework/audio/VDAudioManager";
 import VDScreenManager from "../../../vd-framework/ui/VDScreenManager";
 import { Config } from "./common/Config";
-import { directorControler } from "./director/controler/directorControler";
+import { director_SendDataToSeverControler } from "./director/controler/director_SendDataToSeverControler";
 import { sendDataToSever } from "./network/sendDataToSever";
 import { sever_loginModel } from "./sever/model/sever_loginModel";
 import { sever_loginSevice } from "./sever/sevice/sever_loginSevice";
 import { server_loginControler } from "./sever/controler/server_loginControler";
 import { sever_playerControler } from "./sever/controler/sever_playerControler";
 import { eventListener } from "./network/eventListener";
+import { director_handleDataFromSeverModel } from "./director/model/director_handleDataFromSeverModel";
+import { login_loginModel } from "./screensManager/login/model/login_loginModel";
+import { director_sendDataToScreensControler } from "./director/controler/director_sendDataToScreensControler";
+import { login_playerModel } from "./screensManager/login/model/login_playerModel";
+import { loginSevice } from "./screensManager/login/sevice/loginSevice";
+import { sever_playerModel } from "./sever/model/sever_playerModel";
+import { home_playerModel } from "./screensManager/home/model/home_playerModel";
 const { ccclass, property } = _decorator;
 
 @ccclass("mainGame_Scene")
@@ -38,13 +45,20 @@ export class mainGame_Scene extends Component {
     }
   }
   registerEvent() {
-    directorControler.instance.registerEvent();
+    director_SendDataToSeverControler.instance.registerEvent();
+    director_handleDataFromSeverModel.instance.registerEvent();
+    director_sendDataToScreensControler.instance.init();
     sendDataToSever.instance.registerEvent();
     sever_loginModel.instance.registerEvent();
     sever_loginSevice.instance.init();
     server_loginControler.instance.init();
     sever_playerControler.instance.init();
     eventListener.instance.registerEvent();
+    login_loginModel.instance.registerEvent();
+    login_playerModel.instance.registerEvent();
+    loginSevice.instance.registerEvent();
+    sever_playerModel.instance.registerEvent();
+    home_playerModel.instance.registerEvent();
   }
   onDestroy() {
     VDAudioManager.instance.destroy();

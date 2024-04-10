@@ -9,6 +9,7 @@ import { loginResult } from "../../dataModel/loginDataType_sendToClient";
 import { sever_iLoginModel, sever_iLoginResulModel, sever_iLoginSevice } from "../../interfaces/sever_interfaces";
 import { sever_loginModel } from "../model/sever_loginModel";
 import { sever_loginResultModel } from "../model/sever_loginResultModel";
+import { playerInfo } from "../../dataModel/playerDataType";
 const { ccclass, property } = _decorator;
 
 @ccclass("sever_loginSevice")
@@ -31,38 +32,29 @@ export class sever_loginSevice implements sever_iLoginSevice {
 
   _loginResult: loginResult = null;
   init() {
-    this.registerEvent();
     this.initInterfaces(sever_loginResultModel.instance, sever_loginModel.instance);
   }
-  registerEvent() {
-    VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_LOGIN_SEVICE, this.checkLoginData.bind(this));
-  }
-  offEvent() {
-    VDEventListener.off(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_LOGIN_SEVICE, this.checkLoginData.bind(this));
-  }
+
   initInterfaces(iLoginResultModel: sever_iLoginResulModel, iLoginSendToSever: sever_iLoginModel) {
     this._iLoginResult = iLoginResultModel;
     this._iLoginSendToSever = iLoginSendToSever;
   }
-  checkLoginData(data: loginDataType_sendToSever) {
-    let dataCheck = data;
-    console.log("data check", dataCheck);
-    if (data.userName === "ngocdev") {
-      console.log("user name true");
-      this._isStatusUserNamer = true;
-    } else {
-      console.log("user name false");
-      this._isStatusUserNamer = false;
-    }
-    if (data.password === "123456") {
-      console.log("password true");
-      this._isStatusPassword = true;
-    } else {
-      console.log("password false");
-      this._isStatusPassword = false;
+
+  checkLoginData(playerList: playerInfo[], loginData: loginDataType_sendToSever) {
+    let dataCheck = loginData;
+    this._isStatusUserNamer = false;
+    this._isStatusPassword = false;
+    for (let i = 0; i < playerList.length; i++) {
+      if (dataCheck.userName === playerList[i].playerName) {
+        this._isStatusUserNamer = true;
+      }
+      if (dataCheck.password === playerList[i].password) {
+        this._isStatusPassword = true;
+      }
     }
     this.checkStatusLogin(this._isStatusUserNamer, this._isStatusPassword);
   }
+
   checkStatusLogin(isStatusUserName: boolean, isStatusPassword) {
     if (isStatusUserName && isStatusPassword) {
       this._isSatusLogin = true;
@@ -86,6 +78,7 @@ export class sever_loginSevice implements sever_iLoginSevice {
     }
     this.sendLoginDataToLoginControler();
   }
+
   setLoginResultData() {
     let loginResult: loginResult = null;
     loginResult = {
@@ -97,12 +90,15 @@ export class sever_loginSevice implements sever_iLoginSevice {
     this._iLoginResult.setLoginData(loginResult);
     console.log(this._iLoginResult.getLoginData());
   }
+
   getLoginResultData(): loginResult {
     return this._iLoginResult.getLoginData();
   }
+
   sendLoginDataToLoginControler() {
     VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER, this._isSatusLogin);
   }
+
   getLoginDataSendToSever(): loginDataType_sendToSever {
     return this._iLoginSendToSever.getLoginData_sendToSever();
   }

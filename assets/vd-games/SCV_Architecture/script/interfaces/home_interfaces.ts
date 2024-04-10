@@ -1,14 +1,14 @@
-import { _decorator, Component, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
-@ccclass('home_interfaces')
-export class home_interfaces extends Component {
-    start() {
-
-    }
-
-    update(deltaTime: number) {
-        
-    }
+import { playerInfo, playerInfoPackage } from "../dataModel/playerDataType";
+export interface home_iPlayerModel {
+  setPlayerInfo(playerInfo: playerInfoPackage);
+  getPlayerInfo(): playerInfoPackage;
 }
-
+export interface home_iPlayerSevice {
+  getPlayerID(): number;
+}
+
+export interface home_iPlayerView {
+  setUserName(userName: string);
+  setCoin(coin: number);
+  setAvatarByAvatarID(avatarID: number);
+}

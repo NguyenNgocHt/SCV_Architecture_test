@@ -81,4 +81,10 @@ export class sever_playerSevice implements sever_iPlayerSevice {
     let playerInfo = this._iPlayerListModel.getPlayerInfoByUserNameAndPassword(userName, password);
     return playerInfo;
   }
+  getPlayerList(): playerInfo[] {
+    return this._iPlayerListModel.getPlayerList();
+  }
+  getPlayerInfoByPlayerIDFromPlayerList(playerID): playerInfo {
+    return this._iPlayerListModel.getPlayerByIDFromPlayerList(playerID);
+  }
 }

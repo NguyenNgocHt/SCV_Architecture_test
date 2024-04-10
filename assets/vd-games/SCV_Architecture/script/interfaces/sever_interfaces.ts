@@ -10,11 +10,14 @@ export interface sever_iLayerInfoModel {}
 export interface sever_iLoginSevice {
   getLoginResultData(): loginResult;
   getLoginDataSendToSever(): loginDataType_sendToSever;
+  checkLoginData(playerList: playerInfo[], loginData: loginDataType_sendToSever): void;
 }
 export interface sever_iPlayerSevice {
   init_playerList(): void;
   init(): void;
   getPlayerInfoByUserNameAndPassword(userName: string, password: string): playerInfo;
+  getPlayerList(): playerInfo[];
+  getPlayerInfoByPlayerIDFromPlayerList(playerID): playerInfo;
 }
 export interface sever_iPlayerListModel {
   setPlayerList(player: playerInfo): void;
