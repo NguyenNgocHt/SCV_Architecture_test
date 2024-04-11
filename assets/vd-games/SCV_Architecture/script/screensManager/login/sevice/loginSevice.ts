@@ -1,36 +1,44 @@
-import { _decorator, Component, Node } from "cc";
+import { _decorator } from "cc";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
 import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
 import { loginResult } from "../../../dataModel/loginDataType_sendToClient";
-import { BYTEDANCE } from "cc/env";
-import { login_iLoginSevice } from "../../../interfaces/login_interfaces";
+import { ILoginController, login_iLoginSevice } from "../../../interfaces/login_interfaces";
 const { ccclass, property } = _decorator;
 
 @ccclass("loginSevice")
 export class loginSevice implements login_iLoginSevice {
+  private _loginController: ILoginController = null;
+
+  Init(loginController: ILoginController) {
+    this._loginController = loginController;
+  }
+
   registerEvent() {
     VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_SEVICE, this.checkLoginResultData.bind(this));
   }
+
   offEvent() {
     VDEventListener.off(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_SEVICE, this.checkLoginResultData.bind(this));
   }
+
   checkLoginResultData(loginResult: loginResult) {
     console.log("come in login sevice");
     let checkLoginResult = loginResult;
     console.log("checkLoginResult", checkLoginResult);
+
     if (checkLoginResult.isLogin) {
       console.log("chuyển màn sang home");
-      VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.LOGIN_SUCCESS);
+      this._loginController.switchToTheHomeScreen();
     } else {
       if (!checkLoginResult.isUserName) {
-        VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.USER_NAME_WRONG);
+        this._loginController.setShowMsg_userNameWrong();
       }
       if (!checkLoginResult.isPassword) {
-        VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.PASSWORD_WRONG);
+        this._loginController.setShowMsg_passwordWrong();
       }
       if (!checkLoginResult.isUserName && !checkLoginResult.isPassword) {
         console.log("come in user name and pass wrong");
-        VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.PASSWORD_AND_USER_NAME_WRONG);
+        this._loginController.setShowMsg_userNameAndPasswordWrong();
       }
     }
   }

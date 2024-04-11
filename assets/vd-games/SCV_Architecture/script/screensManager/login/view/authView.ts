@@ -14,7 +14,6 @@ export class authView extends Component implements login_iAuthView {
   centerPos: Node = null;
 
   NodeMovingToLeft(CenterNode: Node, rightNode: Node) {
-    Tween.stopAllByTarget(CenterNode);
     tween(CenterNode)
       .to(0.8, { worldPosition: this.leftPos.getWorldPosition() }, { easing: "backInOut" })
       .call(() => {
@@ -23,7 +22,6 @@ export class authView extends Component implements login_iAuthView {
       .start();
     rightNode.active = true;
     rightNode.setWorldPosition(this.rightPos.getWorldPosition());
-    Tween.stopAllByTarget(rightNode);
     tween(rightNode).to(0.8, { worldPosition: this.centerPos.getWorldPosition() }, { easing: "backInOut" }).start();
   }
 }

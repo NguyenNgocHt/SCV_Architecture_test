@@ -1,25 +1,33 @@
 import { _decorator, Component, Node } from "cc";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
 import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
+import { IAuthController, IPlayNowController, IPlayNowView } from "../../../interfaces/login_interfaces";
+import { playNowView } from "../view/playNowView";
 const { ccclass, property } = _decorator;
 
 @ccclass("playNowControler")
-export class playNowControler extends Component {
-  start() {
-    this.registerEvent();
+export class playNowControler extends Component implements IPlayNowController {
+  @property(playNowView)
+  PlayNowController: playNowView = null;
+
+  private _playNowView: IPlayNowView = null;
+  private _authController: IAuthController = null;
+
+  init(authController: IAuthController) {
+    this.setInterfaces(this.PlayNowController, authController);
+    this._playNowView.init(this);
   }
-  registerEvent() {
-    VDEventListener.on(GAME_EVENT_DEFINE.ON_CLICK_LOGIN_BUTTON_IN_PLAY_NOW, this.callToAuthCtr_callLoginNode.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.ON_LICK_REGISTER_BUTTON_IN_PLAY_NOW, this.callToAuthCtr_callRegisterNode.bind(this));
-  }
-  offEvent() {
-    VDEventListener.off(GAME_EVENT_DEFINE.ON_CLICK_LOGIN_BUTTON_IN_PLAY_NOW, this.callToAuthCtr_callLoginNode.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.ON_LICK_REGISTER_BUTTON_IN_PLAY_NOW, this.callToAuthCtr_callRegisterNode.bind(this));
+
+  setInterfaces(playNowView: IPlayNowView, authController: IAuthController) {
+    this._playNowView = playNowView;
+    this._authController = authController;
   }
   callToAuthCtr_callLoginNode() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.CALL_LOGIN_NODE_IN_PLAY_NOW_CTR, this.node);
+    console.log("comein");
+    this._authController.loginNodeControl(this.node);
   }
   callToAuthCtr_callRegisterNode() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.CALL_REGISTER_NODE_IN_PLAY_NOW_CTR, this.node);
+    console.log("comein");
+    this._authController.registerNodeControl(this.node);
   }
 }

@@ -1,10 +1,11 @@
+import { authControler } from "./authControler";
 import { _decorator, Component, Prefab, instantiate, sp } from "cc";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
 import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
 import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
 import VDBaseScreen from "../../../../../../vd-framework/ui/VDBaseScreen";
 import { MESSENGER_DEFINE, Path } from "../../../common/Path";
-import { IAuthenticationService, login_iLoginModel, login_iLoginSevice, login_iLoginView, login_iPlayerModel } from "../../../interfaces/login_interfaces";
+import { IAuthController, IAuthenticationService, ILoginController, login_iLoginModel, login_iLoginSevice, login_iLoginView, login_iPlayerModel } from "../../../interfaces/login_interfaces";
 import { loginView } from "../view/loginView";
 import { director_sendDataToScreensControler } from "../../../director/controler/director_sendDataToScreensControler";
 import { loginSevice } from "../sevice/loginSevice";
@@ -15,7 +16,7 @@ import { MockAuthenticationService } from "../sevice/MockAuthenticationService";
 const { ccclass, property } = _decorator;
 
 @ccclass("loginControler")
-export class loginControler extends Component {
+export class loginControler extends Component implements ILoginController {
   @property(loginView)
   LoginView: loginView = null;
 
@@ -24,60 +25,42 @@ export class loginControler extends Component {
   private _iLoginModel: login_iLoginModel = null;
   private _iPlayerModel: login_iPlayerModel = null;
   private _authenTicationSevice: IAuthenticationService = null;
+  private _authController: IAuthController = null;
 
-  start() {
-    this.initInterfaces(this.LoginView);
+  init(authController: IAuthController) {
+    console.log("come in loginControler");
+    this.initInterfaces(this.LoginView, authController);
     this.RegisterEvents();
   }
   //init
-  initInterfaces(iLoginView: login_iLoginView) {
+  initInterfaces(iLoginView: login_iLoginView, authControler: IAuthController) {
     this._iLoginView = iLoginView;
     this._iLoginSevice = new loginSevice();
 
     this._iLoginModel = new login_loginModel();
     this._iPlayerModel = new login_playerModel();
     this._authenTicationSevice = new MockAuthenticationService();
+
+    this._authController = authControler;
   }
 
   RegisterEvents() {
     this._iLoginSevice.registerEvent();
     this._iLoginModel.registerEvent();
     this._iPlayerModel.registerEvent();
-    this.registerEvent_loginControler();
-  }
-
-  registerEvent_loginControler() {
-    VDEventListener.on(GAME_EVENT_DEFINE.ONCICK_REGISTRATION_BUTTON, this.callToAuthCtr_callRegisterNode.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.ONCLICK_PLAY_NOW_BUTTON_FROM_LOGIN_NODE, this.callToAuthCtr_callPlayNowNode.bind(this));
-
-    VDEventListener.on(GAME_EVENT_DEFINE.LOGIN_DATA, this.sendLoginDtaToSever.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.LOGIN_SUCCESS, this.switchToTheHomeScreen.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.USER_NAME_WRONG, this.setShowMsg_userNameWrong.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.PASSWORD_WRONG, this.setShowMsg_passwordWrong.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.PASSWORD_AND_USER_NAME_WRONG, this.setShowMsg_userNameAndPasswordWrong.bind(this));
-  }
-
-  offEvent() {
-    VDEventListener.off(GAME_EVENT_DEFINE.ONCICK_REGISTRATION_BUTTON, this.callToAuthCtr_callRegisterNode.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.ONCLICK_PLAY_NOW_BUTTON_FROM_LOGIN_NODE, this.callToAuthCtr_callPlayNowNode.bind(this));
-
-    VDEventListener.off(GAME_EVENT_DEFINE.LOGIN_DATA, this.sendLoginDtaToSever.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.LOGIN_SUCCESS, this.switchToTheHomeScreen.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.USER_NAME_WRONG, this.setShowMsg_userNameWrong.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.PASSWORD_WRONG, this.setShowMsg_passwordWrong.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.PASSWORD_AND_USER_NAME_WRONG, this.setShowMsg_userNameAndPasswordWrong.bind(this));
+    this._iLoginSevice.Init(this);
+    this._iLoginView.init(this);
   }
 
   callToAuthCtr_callRegisterNode() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.CALL_REGISTER_NODE, this.node);
+    this._authController.registerNodeControl(this.node);
   }
 
   callToAuthCtr_callPlayNowNode() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.CALL_PLAY_NOW_NODE_FROM_LOGIN_CTR, this.node);
+    this._authController.playNowNodeControl(this.node);
   }
 
   sendLoginDtaToSever(data: loginDataType_sendToSever) {
-    // VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_DATA_TO_DIRECTOR_FROM_LOGIN, data);
     let loginResult = this._authenTicationSevice.process(data.userName, data.password);
     let playerInfo = this._authenTicationSevice.getPlayerInfoPackage(data.userName, data.password);
     console.log("loginResult", loginResult);

@@ -12,11 +12,13 @@ export interface login_iLoginView {
   showMessenger_userNameWrong(msg): void;
   showMessenger_passwordWrong(msg): void;
   resetAllMessenger(): void;
+  init(loginControler: ILoginController);
 }
 export interface IRegisterView {
   init(registerControl: IRegisterController): void;
 }
 export interface login_iLoginSevice {
+  Init(loginController: ILoginController);
   registerEvent();
 }
 export interface login_iLoginModel {
@@ -36,6 +38,7 @@ export interface IAuthController {
   playNowNodeControl(centerNode);
 }
 export interface ILoginController {
+  init(authController: IAuthController);
   callToAuthCtr_callRegisterNode();
   callToAuthCtr_callPlayNowNode();
   sendLoginDtaToSever(data: loginDataType_sendToSever);
@@ -45,12 +48,16 @@ export interface ILoginController {
   setShowMsg_userNameAndPasswordWrong();
 }
 export interface IPlayNowController {
+  init(authController: IAuthController);
   callToAuthCtr_callLoginNode();
   callToAuthCtr_callRegisterNode();
 }
 export interface IRegisterController {
+  init(authController: IAuthController);
   AuthCtr_LoginNode();
   callToAuthCtr_CallPlayNowNode();
   checkRegisterData(msgData);
-  init(authController: IAuthController);
+}
+export interface IPlayNowView {
+  init(playNowController: IPlayNowController);
 }

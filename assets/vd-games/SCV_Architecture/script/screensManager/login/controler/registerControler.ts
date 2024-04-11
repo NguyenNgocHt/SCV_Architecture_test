@@ -16,6 +16,7 @@ export class registerControler extends Component implements IRegisterController 
   private _authController: IAuthController = null;
 
   init(authController: IAuthController) {
+    console.log("come in registerController");
     this.initInterfaces(this.RegisterView, authController);
     this._registerView.init(this);
   }

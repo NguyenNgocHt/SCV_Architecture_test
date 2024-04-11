@@ -5,7 +5,7 @@ import { loginDataType_sendToSever } from "../../../dataModel/loginDataType_send
 import { EditBox } from "cc";
 import { CLIENT_COMMAN_ID_OP } from "../../../common/define";
 import { Label } from "cc";
-import { login_iLoginView } from "../../../interfaces/login_interfaces";
+import { ILoginController, login_iLoginView } from "../../../interfaces/login_interfaces";
 import { TriggerEventType } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -19,12 +19,20 @@ export class loginView extends Component implements login_iLoginView {
   NotifyForUserName: Label = null;
   @property(Label)
   NotifyForPassword: Label = null;
+  private _loginController: ILoginController = null;
+
+  init(loginControler: ILoginController) {
+    this._loginController = loginControler;
+  }
+
   onClickResgistrationButton() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.ONCICK_REGISTRATION_BUTTON);
+    this._loginController.callToAuthCtr_callRegisterNode();
   }
+
   onClickPlayNowButton() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.ONCLICK_PLAY_NOW_BUTTON_FROM_LOGIN_NODE);
+    this._loginController.callToAuthCtr_callPlayNowNode();
   }
+
   onClickLoginButton() {
     let loginData: loginDataType_sendToSever = null;
     loginData = {
@@ -33,14 +41,17 @@ export class loginView extends Component implements login_iLoginView {
       password: this.Password.string,
     };
     console.log("login data", loginData);
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.LOGIN_DATA, loginData);
+    this._loginController.sendLoginDtaToSever(loginData);
   }
+
   showMessenger_userNameWrong(msg: string) {
     this.NotifyForUserName.string = msg;
   }
+
   showMessenger_passwordWrong(msg: string) {
     this.NotifyForPassword.string = msg;
   }
+
   resetAllMessenger() {
     this.NotifyForPassword.string = "";
     this.NotifyForUserName.string = "";

@@ -6,17 +6,17 @@ import { registerControler } from "./registerControler";
 import { authView } from "../view/authView";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
 import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
-import { IAuthController, IRegisterController, login_iAuthView } from "../../../interfaces/login_interfaces";
+import { IAuthController, ILoginController, IPlayNowController, IRegisterController, login_iAuthView } from "../../../interfaces/login_interfaces";
 import { playNowControler } from "./playNowControler";
 const { ccclass, property } = _decorator;
 
 @ccclass("authControler")
 export class authControler extends Component implements IAuthController {
   @property(loginControler)
-  LoginControler: loginControler = null;
+  LoginController: loginControler = null;
 
   @property(registerControler)
-  RegisterControler: registerControler = null;
+  RegisterController: registerControler = null;
 
   @property(authView)
   AuthView: authView = null;
@@ -26,43 +26,39 @@ export class authControler extends Component implements IAuthController {
 
   private _iAuthView: login_iAuthView = null;
   private _registerController: IRegisterController = null;
+  private _playNowController: IPlayNowController = null;
+  private _loginControler: ILoginController = null;
 
   start() {
-    this.registerEvent();
-    this.initInterfaces(this.AuthView, this.RegisterControler);
-    this.initRegisterController();
+    this.initInterfaces(this.AuthView, this.RegisterController, this.PlayNowControler, this.LoginController);
+
+    this.init_registerController();
+
+    this.init_playNowController();
+
+    this.init_loginController();
   }
-  initInterfaces(iAuthView: login_iAuthView, registerControler: registerControler) {
+  initInterfaces(iAuthView: login_iAuthView, registerControler: IRegisterController, playNowController: IPlayNowController, loginController: ILoginController) {
     this._iAuthView = iAuthView;
     this._registerController = registerControler;
+    this._playNowController = playNowController;
+    this._loginControler = loginController;
   }
-  initRegisterController() {
+  init_registerController() {
     this._registerController.init(this);
   }
-  registerEvent() {
-    //from login control
-    VDEventListener.on(GAME_EVENT_DEFINE.CALL_REGISTER_NODE, this.registerNodeControl.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.CALL_PLAY_NOW_NODE_FROM_LOGIN_CTR, this.playNowNodeControl.bind(this));
-    //from register control
-    VDEventListener.on(GAME_EVENT_DEFINE.CALL_LOGIN_NODE, this.loginNodeControl.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.CALL_PLAY_NOW_NODE_FROM_REGISTER_CTR, this.playNowNodeControl.bind(this));
-    //from play now control
-    VDEventListener.on(GAME_EVENT_DEFINE.CALL_LOGIN_NODE_IN_PLAY_NOW_CTR, this.loginNodeControl.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.CALL_REGISTER_NODE_IN_PLAY_NOW_CTR, this.registerNodeControl.bind(this));
+  init_playNowController() {
+    this._playNowController.init(this);
   }
-  offEvent() {
-    VDEventListener.off(GAME_EVENT_DEFINE.CALL_REGISTER_NODE, this.registerNodeControl.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.CALL_LOGIN_NODE, this.loginNodeControl.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.CALL_PLAY_NOW_NODE_FROM_LOGIN_CTR, this.playNowNodeControl.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.CALL_PLAY_NOW_NODE_FROM_REGISTER_CTR, this.playNowNodeControl.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.CALL_LOGIN_NODE_IN_PLAY_NOW_CTR, this.loginNodeControl.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.CALL_REGISTER_NODE_IN_PLAY_NOW_CTR, this.registerNodeControl.bind(this));
+  init_loginController() {
+    this._loginControler.init(this);
   }
+
   registerNodeControl(centerNode: Node) {
-    this._iAuthView.NodeMovingToLeft(centerNode, this.RegisterControler.node);
+    this._iAuthView.NodeMovingToLeft(centerNode, this.RegisterController.node);
   }
   loginNodeControl(centerNode: Node) {
-    this._iAuthView.NodeMovingToLeft(centerNode, this.LoginControler.node);
+    this._iAuthView.NodeMovingToLeft(centerNode, this.LoginController.node);
   }
   playNowNodeControl(centerNode: Node) {
     this._iAuthView.NodeMovingToLeft(centerNode, this.PlayNowControler.node);
