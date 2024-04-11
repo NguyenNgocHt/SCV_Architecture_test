@@ -3,11 +3,6 @@ import AsyncTaskMgr from "../../../vd-framework/async-task/AsyncTaskMgr";
 import { VDAudioManager } from "../../../vd-framework/audio/VDAudioManager";
 import VDScreenManager from "../../../vd-framework/ui/VDScreenManager";
 import { Config } from "./common/Config";
-import { director_SendDataToSeverControler } from "./director/controler/director_SendDataToSeverControler";
-import { sendDataToSever } from "./network/sendDataToSever";
-import { eventListener } from "./network/eventListener";
-import { director_handleDataFromSeverModel } from "./director/model/director_handleDataFromSeverModel";
-import { director_sendDataToScreensControler } from "./director/controler/director_sendDataToScreensControler";
 import { Path } from "./common/Path";
 const { ccclass, property } = _decorator;
 
@@ -36,13 +31,7 @@ export class mainGame_Scene extends Component {
       });
     }
   }
-  registerEvent() {
-    director_SendDataToSeverControler.instance.registerEvent();
-    director_handleDataFromSeverModel.instance.registerEvent();
-    director_sendDataToScreensControler.instance.init();
-    sendDataToSever.instance.registerEvent();
-    eventListener.instance.registerEvent();
-  }
+  registerEvent() {}
   onDestroy() {
     VDAudioManager.instance.destroy();
     AsyncTaskMgr.instance.stop();

@@ -6,7 +6,6 @@ import VDBaseScreen from "../../../../../../vd-framework/ui/VDBaseScreen";
 import { MESSENGER_DEFINE, Path } from "../../../common/Path";
 import { IAuthController, IAuthenticationService, ILoginController, ILoginModel_login, ILoginSevice_login, ILoginView_login, IPlayerModel_login } from "../../../interfaces/login_interfaces";
 import { loginView } from "../view/loginView";
-import { director_sendDataToScreensControler } from "../../../director/controler/director_sendDataToScreensControler";
 import { loginSevice } from "../sevice/loginSevice";
 import { login_loginModel } from "../model/login_loginModel";
 import { login_playerModel } from "../model/login_playerModel";
@@ -93,15 +92,8 @@ export class loginControler extends Component implements ILoginController {
     spineCloud.setTrackEventListener(entry, (x: any, ev: any) => {
       if (ev && ev.data && ev.data.name && ev.data.name == "transition") {
         let play_screen = VDScreenManager.instance.assetBundle.get(Path.HOME_SCREEN, Prefab)!;
-        VDScreenManager.instance.pushScreen(
-          play_screen,
-          (screen: VDBaseScreen) => {
-            director_sendDataToScreensControler.instance.isHomeScreen = true;
 
-            director_sendDataToScreensControler.instance.isLoginScreen = false;
-          },
-          true
-        );
+        VDScreenManager.instance.pushScreen(play_screen, (screen: VDBaseScreen) => {}, true);
       }
     });
   }

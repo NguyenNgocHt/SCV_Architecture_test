@@ -12,8 +12,11 @@ export interface IRegisterSevice_login {
 
 export interface ILoginView_login {
   showMessenger_userNameWrong(msg): void;
+
   showMessenger_passwordWrong(msg): void;
+
   resetAllMessenger(): void;
+
   init(loginControler: ILoginController);
 }
 
@@ -23,6 +26,7 @@ export interface IRegisterView {
 
 export interface ILoginSevice_login {
   Init(loginController: ILoginController);
+
   registerEvent();
 }
 
@@ -36,36 +40,51 @@ export interface IPlayerModel_login {
 
 export interface IAuthenticationService {
   process(username: string, password: string): loginResult;
+
   getPlayerInfoPackage(userName: string, password: string): playerInfoPackage;
 }
 
 export interface IAuthController {
   registerNodeControl(centerNode);
+
   loginNodeControl(centerNode);
+
   playNowNodeControl(centerNode);
 }
 
 export interface ILoginController {
   init(authController: IAuthController);
+
   callMoveRegisterNode();
+
   callMovePlayNowNode();
+
   sendLoginDtaToSever(data: loginDataType_sendToSever);
+
   switchToTheHomeScreen();
+
   setShowMsg_userNameWrong();
+
   setShowMsg_passwordWrong();
+
   setShowMsg_userNameAndPasswordWrong();
 }
 
 export interface IPlayNowController {
   init(authController: IAuthController);
-  callMoveLoginNode();
+
+  moveLoginPopup();
+
   callMoveRegisterNode();
 }
 
 export interface IRegisterController {
   init(authController: IAuthController);
+
   callMoveLoginNode();
+
   callMovePlayNowNode();
+
   checkRegisterData(msgData);
 }
 

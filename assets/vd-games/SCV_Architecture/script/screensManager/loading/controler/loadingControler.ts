@@ -7,7 +7,6 @@ import { Config } from "../../../common/Config";
 import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
 import VDBaseScreen from "../../../../../../vd-framework/ui/VDBaseScreen";
 import { PATH } from "../../../common/define";
-import { director_sendDataToScreensControler } from "../../../director/controler/director_sendDataToScreensControler";
 const { ccclass, property } = _decorator;
 
 @ccclass("loadingControler")
@@ -92,7 +91,6 @@ export class loadingControler extends Component implements ILoadingController {
     VDScreenManager.instance.pushScreen(
       play_screen,
       (screen: VDBaseScreen) => {
-        director_sendDataToScreensControler.instance.isLoginScreen = true;
       },
       true
     );

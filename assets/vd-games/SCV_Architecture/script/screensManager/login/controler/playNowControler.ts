@@ -23,7 +23,7 @@ export class playNowControler extends Component implements IPlayNowController {
     this._authController = authController;
   }
 
-  callMoveLoginNode() {
+  moveLoginPopup() {
     this._authController.loginNodeControl(this.node);
   }
 

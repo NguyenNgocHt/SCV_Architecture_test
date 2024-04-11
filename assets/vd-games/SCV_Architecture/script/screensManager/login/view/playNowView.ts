@@ -11,10 +11,10 @@ export class playNowView extends Component implements IPlayNowView {
   }
 
   onClickLoginButton() {
-    this._playNowController.callMoveLoginNode();
+    this._playNowController.moveLoginPopup();
   }
-  
+
   onClickRegisterButton() {
-    this._playNowController.callMoveRegisterNode();
+    this._playNowController.moveLoginPopup();
   }
 }

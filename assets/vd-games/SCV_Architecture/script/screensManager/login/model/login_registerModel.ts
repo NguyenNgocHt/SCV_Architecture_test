@@ -1,5 +1,0 @@
-import { _decorator } from "cc";
-const { ccclass, property } = _decorator;
-
-@ccclass("login_registerModel")
-export class login_registerModel {}

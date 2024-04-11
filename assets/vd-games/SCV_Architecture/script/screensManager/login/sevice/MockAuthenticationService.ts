@@ -16,15 +16,18 @@ export class MockAuthenticationService implements IAuthenticationService {
     this._isStatusLogin = false;
     this._isStatusUseName = false;
     this._isStatusPassword = false;
+
     if (username === "ngocdev") {
       this._isStatusUseName = true;
     }
+
     if (password === "123456") {
       this._isStatusPassword = true;
     }
+
     return this.checkStatusLogin(this._isStatusUseName, this._isStatusPassword);
   }
-  
+
   checkStatusLogin(isStatusUserName: boolean, isStatusPassword): loginResult {
     if (isStatusUserName && isStatusPassword) {
       this._isStatusLogin = true;
@@ -47,12 +50,14 @@ export class MockAuthenticationService implements IAuthenticationService {
 
   setLoginResultData(): loginResult {
     let loginResult: loginResult = null;
+
     loginResult = {
       ID: SEVER_COMMAN_ID_OP.LOGIN_RESULT_ID,
       isLogin: this._isStatusLogin,
       isUserName: this._isStatusUseName,
       isPassword: this._isStatusPassword,
     };
+
     return loginResult;
   }
 
@@ -64,6 +69,7 @@ export class MockAuthenticationService implements IAuthenticationService {
       playerID: 1034,
       money: 1000,
     };
+
     return this._playerInfo;
   }
 }
