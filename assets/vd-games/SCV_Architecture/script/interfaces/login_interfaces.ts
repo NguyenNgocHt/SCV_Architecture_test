@@ -2,29 +2,35 @@ import { loginResult } from "../dataModel/loginDataType_sendToClient";
 import { playerInfoPackage } from "../dataModel/playerDataType";
 import { loginDataType_sendToSever } from "../dataModel/loginDataType_sendToSever";
 
-export interface login_iAuthView {
+export interface IAuthView_login {
   NodeMovingToLeft(CenterNode, rightNode): void;
 }
-export interface login_iRegisterSevice {
+
+export interface IRegisterSevice_login {
   checkRegisterData(msgData): void;
 }
-export interface login_iLoginView {
+
+export interface ILoginView_login {
   showMessenger_userNameWrong(msg): void;
   showMessenger_passwordWrong(msg): void;
   resetAllMessenger(): void;
   init(loginControler: ILoginController);
 }
+
 export interface IRegisterView {
   init(registerControl: IRegisterController): void;
 }
-export interface login_iLoginSevice {
+
+export interface ILoginSevice_login {
   Init(loginController: ILoginController);
   registerEvent();
 }
-export interface login_iLoginModel {
+
+export interface ILoginModel_login {
   registerEvent();
 }
-export interface login_iPlayerModel {
+
+export interface IPlayerModel_login {
   registerEvent();
 }
 
@@ -32,11 +38,13 @@ export interface IAuthenticationService {
   process(username: string, password: string): loginResult;
   getPlayerInfoPackage(userName: string, password: string): playerInfoPackage;
 }
+
 export interface IAuthController {
   registerNodeControl(centerNode);
   loginNodeControl(centerNode);
   playNowNodeControl(centerNode);
 }
+
 export interface ILoginController {
   init(authController: IAuthController);
   callMoveRegisterNode();
@@ -47,17 +55,20 @@ export interface ILoginController {
   setShowMsg_passwordWrong();
   setShowMsg_userNameAndPasswordWrong();
 }
+
 export interface IPlayNowController {
   init(authController: IAuthController);
   callMoveLoginNode();
   callMoveRegisterNode();
 }
+
 export interface IRegisterController {
   init(authController: IAuthController);
- callMoveLoginNode();
- callMovePlayNowNode();
+  callMoveLoginNode();
+  callMovePlayNowNode();
   checkRegisterData(msgData);
 }
+
 export interface IPlayNowView {
   init(playNowController: IPlayNowController);
 }

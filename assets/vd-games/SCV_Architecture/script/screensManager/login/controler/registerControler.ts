@@ -1,4 +1,4 @@
-import { IAuthController, IRegisterController, IRegisterView, login_iRegisterSevice } from "./../../../interfaces/login_interfaces";
+import { IAuthController, IRegisterController, IRegisterView, IRegisterSevice_login } from "./../../../interfaces/login_interfaces";
 import { _decorator, Component, Node } from "cc";
 import { registerSevice } from "../sevice/registerSevice";
 import { registerView } from "../view/registerView";
@@ -9,8 +9,10 @@ export class registerControler extends Component implements IRegisterController 
   @property(registerView)
   RegisterView: registerView = null;
 
-  private _registerSevice: login_iRegisterSevice = null;
+  private _registerSevice: IRegisterSevice_login = null;
+
   private _registerView: IRegisterView = null;
+
   private _authController: IAuthController = null;
 
   init(authController: IAuthController) {

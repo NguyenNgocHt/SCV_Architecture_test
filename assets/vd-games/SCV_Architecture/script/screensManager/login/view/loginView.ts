@@ -3,12 +3,12 @@ import { loginDataType_sendToSever } from "../../../dataModel/loginDataType_send
 import { EditBox } from "cc";
 import { CLIENT_COMMAN_ID_OP } from "../../../common/define";
 import { Label } from "cc";
-import { ILoginController, login_iLoginView } from "../../../interfaces/login_interfaces";
+import { ILoginController, ILoginView_login } from "../../../interfaces/login_interfaces";
 import { TriggerEventType } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("loginView")
-export class loginView extends Component implements login_iLoginView {
+export class loginView extends Component implements ILoginView_login {
   @property(EditBox)
   UserName: EditBox = null;
   @property(EditBox)

@@ -2,11 +2,11 @@ import { _decorator } from "cc";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
 import { GAME_EVENT } from "../../../network/networkDefine";
 import { loginResult } from "../../../dataModel/loginDataType_sendToClient";
-import { ILoginController, login_iLoginSevice } from "../../../interfaces/login_interfaces";
+import { ILoginController, ILoginSevice_login } from "../../../interfaces/login_interfaces";
 const { ccclass, property } = _decorator;
 
 @ccclass("loginSevice")
-export class loginSevice implements login_iLoginSevice {
+export class loginSevice implements ILoginSevice_login {
   private _loginController: ILoginController = null;
 
   Init(loginController: ILoginController) {

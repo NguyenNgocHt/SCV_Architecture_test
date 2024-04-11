@@ -1,13 +1,13 @@
 import { _decorator, Component, Node } from "cc";
 import { playerInfo, playerInfoPackage } from "../../../dataModel/playerDataType";
-import { home_iPlayerModel } from "../../../interfaces/home_interfaces";
+import { IPlayerModel_Home } from "../../../interfaces/home_interfaces";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
 import { GAME_EVENT } from "../../../network/networkDefine";
 import { Player_ID } from "../../../dataModel/homeDataType_sendToSever";
 const { ccclass, property } = _decorator;
 
 @ccclass("home_playerModel")
-export class home_playerModel implements home_iPlayerModel {
+export class home_playerModel implements IPlayerModel_Home {
   private _playerInfo: playerInfoPackage = null;
 
   registerEvent() {

@@ -1,5 +1,5 @@
 import { _decorator, Component, Prefab } from "cc";
-import { ILoadingController, loading_iAssetsSevice, loading_iAudioSevice, loading_iLoadingView } from "../../../interfaces/loading_interfaces";
+import { ILoadingController, IAssetsSevice_loading, IAudioSevice_loading, ILoadingView_loading } from "../../../interfaces/loading_interfaces";
 import { audioSevice } from "../sevice/audioSevice";
 import { assetsSevice } from "../sevice/assetsSevice";
 import { loadingView } from "../view/loadingView";
@@ -14,9 +14,9 @@ const { ccclass, property } = _decorator;
 export class loadingControler extends Component implements ILoadingController {
   @property(loadingView)
   LoadingView: loadingView = null;
-  _audioSevice: loading_iAudioSevice = null;
-  _assetsSevice: loading_iAssetsSevice = null;
-  _loadingView: loading_iLoadingView = null;
+  _audioSevice: IAudioSevice_loading = null;
+  _assetsSevice: IAssetsSevice_loading = null;
+  _loadingView: ILoadingView_loading = null;
   progressCurrent: number = 0;
   onLoad() {
     this.initInterfaces(this.LoadingView);
@@ -27,13 +27,13 @@ export class loadingControler extends Component implements ILoadingController {
     this.setVersion(Config.versionGame);
   }
 
-  initInterfaces(iloadingView: loading_iLoadingView) {
+  initInterfaces(iloadingView: ILoadingView_loading) {
     this.initInterfaces_isMe(iloadingView);
     this.initInterfaces_audioSevice();
     this.initInterfaces_assetsSevice();
     this.initInterfaces_loadingView();
   }
-  initInterfaces_isMe(iLoadingView: loading_iLoadingView) {
+  initInterfaces_isMe(iLoadingView: ILoadingView_loading) {
     this._audioSevice = new audioSevice();
     this._assetsSevice = new assetsSevice();
     this._loadingView = iLoadingView;

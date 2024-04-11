@@ -1,21 +1,24 @@
-export interface loading_iAudioModel {
+export interface IAudioModel_loading {
   getSoundDirsData(): string[];
   setSoundDirsData(soundPath: string): void;
 }
-export interface loading_iAudioSevice {
+
+export interface IAudioSevice_loading {
   initInterfaces(): void;
   loadingAudio(): void;
   loadAudioWeb();
   initAudio();
   getAudios(): { [key: string]: string };
 }
-export interface loading_iAssetsSevice {
+
+export interface IAssetsSevice_loading {
   initInterfaces(loadingControler: ILoadingController);
   loadingAssets(): void;
   setProgressBarCurrent(progressCurrent: number): void;
   setAudiosData(audios: { [key: string]: string });
 }
-export interface loading_iLoadingView {
+
+export interface ILoadingView_loading {
   init(loadingController: ILoadingController);
   startView(): void;
   updateProgressBar(updatePoint: number): void;
@@ -23,16 +26,19 @@ export interface loading_iLoadingView {
   showMessenger(mesenger: string): void;
   setVersion(version: string): void;
 }
-export interface loading_iImagesModel {
+
+export interface IImageModel_loading {
   getImagesDirsData(): string[];
   setImagesDirsData(imagePath: string): void;
 }
-export interface loading_iPrefabModel {
+
+export interface IPrefabModel_loading {
   getPrefabDirds(): string[];
   getPrefabsPath(): string[];
   setPrefabDirs(prefabDir: string): void;
   setPrefabsPath(prefabPath: string): void;
 }
+
 export interface ILoadingController {
   initAudios(): void;
   startLoadingAsset(): void;

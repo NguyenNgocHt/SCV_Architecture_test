@@ -4,7 +4,7 @@ import { GAME_EVENT } from "../../../network/networkDefine";
 import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
 import VDBaseScreen from "../../../../../../vd-framework/ui/VDBaseScreen";
 import { MESSENGER_DEFINE, Path } from "../../../common/Path";
-import { IAuthController, IAuthenticationService, ILoginController, login_iLoginModel, login_iLoginSevice, login_iLoginView, login_iPlayerModel } from "../../../interfaces/login_interfaces";
+import { IAuthController, IAuthenticationService, ILoginController, ILoginModel_login, ILoginSevice_login, ILoginView_login, IPlayerModel_login } from "../../../interfaces/login_interfaces";
 import { loginView } from "../view/loginView";
 import { director_sendDataToScreensControler } from "../../../director/controler/director_sendDataToScreensControler";
 import { loginSevice } from "../sevice/loginSevice";
@@ -19,11 +19,13 @@ export class loginControler extends Component implements ILoginController {
   @property(loginView)
   LoginView: loginView = null;
 
-  private _loginView: login_iLoginView = null;
-  private _loginSevice: login_iLoginSevice = null;
-  private _loginModel: login_iLoginModel = null;
-  private _playerModel: login_iPlayerModel = null;
+  private _loginView: ILoginView_login = null;
+  private _loginSevice: ILoginSevice_login = null;
+  private _loginModel: ILoginModel_login = null;
+  private _playerModel: IPlayerModel_login = null;
+
   private _authenTicationSevice: IAuthenticationService = null;
+
   private _authController: IAuthController = null;
 
   init(authController: IAuthController) {
@@ -32,15 +34,16 @@ export class loginControler extends Component implements ILoginController {
     this.RegisterEvents();
   }
   //init
-  initInterfaces(iLoginView: login_iLoginView, authControler: IAuthController) {
+
+  initInterfaces(iLoginView: ILoginView_login, authControler: IAuthController) {
     this._loginView = iLoginView;
+    this._authController = authControler;
+
     this._loginSevice = new loginSevice();
+    this._authenTicationSevice = new MockAuthenticationService();
 
     this._loginModel = new login_loginModel();
     this._playerModel = new login_playerModel();
-    this._authenTicationSevice = new MockAuthenticationService();
-
-    this._authController = authControler;
   }
 
   RegisterEvents() {

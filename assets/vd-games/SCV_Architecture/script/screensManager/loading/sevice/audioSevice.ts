@@ -3,14 +3,14 @@ import { _decorator, Component, Node, AudioClip } from "cc";
 import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
 import { assetManager } from "cc";
 import VDLocalDataManager from "../../../../../../vd-framework/common/VDLocalDataManager";
-import { loading_iAudioModel, loading_iAudioSevice } from "../../../interfaces/loading_interfaces";
+import { IAudioModel_loading, IAudioSevice_loading } from "../../../interfaces/loading_interfaces";
 import { audioModel } from "../model/audioModel";
 const { ccclass, property } = _decorator;
 
 @ccclass("audioSevice")
-export class audioSevice implements loading_iAudioSevice {
+export class audioSevice implements IAudioSevice_loading {
   private _audios: { [key: string]: string } = {};
-  private _audioModel: loading_iAudioModel = null;
+  private _audioModel: IAudioModel_loading = null;
 
   initInterfaces() {
     this._audioModel = new audioModel();

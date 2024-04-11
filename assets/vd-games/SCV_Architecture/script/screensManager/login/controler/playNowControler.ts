@@ -9,11 +9,12 @@ export class playNowControler extends Component implements IPlayNowController {
   PlayNowController: playNowView = null;
 
   private _playNowView: IPlayNowView = null;
+
   private _authController: IAuthController = null;
 
   init(authController: IAuthController) {
     this.setInterfaces(this.PlayNowController, authController);
-    
+
     this._playNowView.init(this);
   }
 
@@ -21,9 +22,11 @@ export class playNowControler extends Component implements IPlayNowController {
     this._playNowView = playNowView;
     this._authController = authController;
   }
+
   callMoveLoginNode() {
     this._authController.loginNodeControl(this.node);
   }
+
   callMoveRegisterNode() {
     this._authController.registerNodeControl(this.node);
   }

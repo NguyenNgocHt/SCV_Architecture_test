@@ -14,6 +14,7 @@ export class Global {
 
     return this._instance;
   }
+
   FIRST_NAMES = [
     "John",
     "Emma",
@@ -65,12 +66,15 @@ export class Global {
     "Hannah",
     "Luke",
   ];
+
   getFirstName(): string[] {
     return this.FIRST_NAMES;
   }
+
   RandomNumber(minNumber: number, maxNumber: number): number {
     return Math.floor(Math.random() * maxNumber) + minNumber;
   }
+
   InitListRandom(randomNumber: number, ListIndex: number): number[] {
     let listRandom: number[];
     listRandom = [];
@@ -83,9 +87,11 @@ export class Global {
     }
     return listRandom;
   }
+
   formatNumberWithCommas(num: number): string {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
+
   getAvatarByID(id: number): SpriteFrame {
     let avatarName = "avatar" + id.toString();
     let avatarGroupPath = Path.AVATAR_TEXTURE_PACKER;
@@ -93,6 +99,7 @@ export class Global {
     let spriteFrameAvatar = texturePacker.getSpriteFrame(avatarName);
     return spriteFrameAvatar;
   }
+
   generateRandomPassword(length: number): string {
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let password = "";

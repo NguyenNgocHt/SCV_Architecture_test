@@ -5,6 +5,7 @@ export type playerInfoPackage = {
   playerID: number;
   money: number;
 };
+
 export type playerInfo = {
   playerID: number;
   playerName: string;

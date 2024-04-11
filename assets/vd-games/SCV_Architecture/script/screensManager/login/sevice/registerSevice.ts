@@ -1,10 +1,10 @@
 import { _decorator, Component, Node } from "cc";
 import { registerDataType_sendToSever } from "../../../dataModel/loginDataType_sendToSever";
-import { login_iRegisterSevice } from "../../../interfaces/login_interfaces";
+import { IRegisterSevice_login } from "../../../interfaces/login_interfaces";
 const { ccclass, property } = _decorator;
 
 @ccclass("registerSevice")
-export class registerSevice implements login_iRegisterSevice {
+export class registerSevice implements IRegisterSevice_login {
   password_numberCharacterMin: number = 6;
   checkRegisterData(msgData: registerDataType_sendToSever) {
     let checkData = msgData;

@@ -1,6 +1,6 @@
-import { ILoadingController, loading_iAudioModel, loading_iPrefabModel } from "../../../interfaces/loading_interfaces";
+import { ILoadingController, IAudioModel_loading, IPrefabModel_loading } from "../../../interfaces/loading_interfaces";
 import { _decorator, sys, Asset, AudioClip } from "cc";
-import { loading_iAssetsSevice, loading_iImagesModel } from "../../../interfaces/loading_interfaces";
+import { IAssetsSevice_loading, IImageModel_loading } from "../../../interfaces/loading_interfaces";
 import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
 import { MESENGER } from "../../../common/define";
 import { imageModel } from "../model/imageModel";
@@ -9,10 +9,10 @@ import { audioModel } from "../model/audioModel";
 const { ccclass, property } = _decorator;
 
 @ccclass("assetsSevice")
-export class assetsSevice implements loading_iAssetsSevice {
-  private _imagesModel: loading_iImagesModel = null;
-  private _prefabModel: loading_iPrefabModel = null;
-  private _audioModel: loading_iAudioModel = null;
+export class assetsSevice implements IAssetsSevice_loading {
+  private _imagesModel: IImageModel_loading = null;
+  private _prefabModel: IPrefabModel_loading = null;
+  private _audioModel: IAudioModel_loading = null;
   private _loadingController: ILoadingController = null;
 
   private _audios: { [key: string]: string } = {};

@@ -1,11 +1,10 @@
-import { Tween } from "cc";
 import { tween } from "cc";
 import { _decorator, Component, Node } from "cc";
-import { login_iAuthView } from "../../../interfaces/login_interfaces";
+import { IAuthView_login } from "../../../interfaces/login_interfaces";
 const { ccclass, property } = _decorator;
 
 @ccclass("authView")
-export class authView extends Component implements login_iAuthView {
+export class authView extends Component implements IAuthView_login {
   @property(Node)
   leftPos: Node = null;
   @property(Node)

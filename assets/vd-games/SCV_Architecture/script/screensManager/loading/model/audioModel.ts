@@ -1,9 +1,9 @@
 import { _decorator, Component, Node } from "cc";
-import { loading_iAudioModel } from "../../../interfaces/loading_interfaces";
+import { IAudioModel_loading } from "../../../interfaces/loading_interfaces";
 const { ccclass, property } = _decorator;
 
 @ccclass("audioModel")
-export class audioModel implements loading_iAudioModel {
+export class audioModel implements IAudioModel_loading {
   private soundDirs = ["res/sounds/bgm/", "res/sounds/sfx/"];
 
   getSoundDirsData(): string[] {

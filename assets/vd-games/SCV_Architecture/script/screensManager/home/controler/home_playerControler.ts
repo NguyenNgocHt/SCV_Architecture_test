@@ -1,5 +1,5 @@
 import { _decorator, Component, Node } from "cc";
-import { home_iPlayerModel, home_iPlayerSevice, home_iPlayerView, IHomeSevice } from "../../../interfaces/home_interfaces";
+import { IPlayerModel_Home, IPlayerSevice_home, IPlayerView_home, IHomeSevice } from "../../../interfaces/home_interfaces";
 import { home_playerSevice } from "../sevice/home_playerSvice";
 import { home_playerView } from "../view/home_playerView";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
@@ -16,9 +16,9 @@ export class home_playerControler extends Component {
   @property(home_playerView)
   PlayerView: home_playerView = null;
 
-  private _playerSevice: home_iPlayerSevice = null;
-  private _playerView: home_iPlayerView = null;
-  private _playerModel: home_iPlayerModel = null;
+  private _playerSevice: IPlayerSevice_home = null;
+  private _playerView: IPlayerView_home = null;
+  private _playerModel: IPlayerModel_Home = null;
   private _mockHomeSevice: IHomeSevice = null;
 
   onLoad() {
@@ -45,7 +45,7 @@ export class home_playerControler extends Component {
     this.getPlayerIDFromPlayerSevice();
   }
 
-  initInterfaces(iPlayerView: home_iPlayerView) {
+  initInterfaces(iPlayerView: IPlayerView_home) {
     this._playerSevice = new home_playerSevice();
     this._mockHomeSevice = new mockHomeSevice();
 
