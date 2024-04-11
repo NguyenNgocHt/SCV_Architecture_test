@@ -1,4 +1,4 @@
-import { GAME_EVENT_DEFINE } from "./../../network/networkDefine";
+import { GAME_EVENT } from "./../../network/networkDefine";
 import { _decorator } from "cc";
 import { playerInfo, playerInfoPackage } from "../../dataModel/playerDataType";
 import {} from "../../../../../vd-framework/common/VDEventListener";
@@ -20,10 +20,10 @@ export class sever_playerModel {
   }
   registerEvent() {
     //player in home
-    VDEventListener.on(GAME_EVENT_DEFINE.SEND_PLAYER_IN_HOME_DATA_TO_SEVER, this.handlePlayerInHomeData.bind(this));
+    VDEventListener.on(GAME_EVENT.SEND_PLAYER_IN_HOME_DATA_TO_SEVER, this.handlePlayerInHomeData.bind(this));
   }
   offEvent() {
-    VDEventListener.on(GAME_EVENT_DEFINE.SEND_PLAYER_IN_HOME_DATA_TO_SEVER, this.handlePlayerInHomeData.bind(this));
+    VDEventListener.on(GAME_EVENT.SEND_PLAYER_IN_HOME_DATA_TO_SEVER, this.handlePlayerInHomeData.bind(this));
   }
 
   handlePlayerInHomeData(data) {
@@ -32,7 +32,7 @@ export class sever_playerModel {
     let dataID = dataJson.id;
     switch (dataID) {
       case SEVER_COMMAN_ID_IP.SEND_PLAYERID_ID:
-        VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_PLAYER_ID_TO_SERVER_PLAYER_CONTROLER, dataJson);
+        VDEventListener.dispatchEvent(GAME_EVENT.SEND_PLAYER_ID_TO_SERVER_PLAYER_CONTROLER, dataJson);
     }
   }
   private _PlayerInfo: playerInfoPackage = null;

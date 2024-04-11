@@ -1,6 +1,4 @@
-import { _decorator, Component, Node } from "cc";
-import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
-import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
+import { _decorator, Component } from "cc";
 import { IAuthController, IPlayNowController, IPlayNowView } from "../../../interfaces/login_interfaces";
 import { playNowView } from "../view/playNowView";
 const { ccclass, property } = _decorator;
@@ -15,6 +13,7 @@ export class playNowControler extends Component implements IPlayNowController {
 
   init(authController: IAuthController) {
     this.setInterfaces(this.PlayNowController, authController);
+    
     this._playNowView.init(this);
   }
 
@@ -22,12 +21,10 @@ export class playNowControler extends Component implements IPlayNowController {
     this._playNowView = playNowView;
     this._authController = authController;
   }
-  callToAuthCtr_callLoginNode() {
-    console.log("comein");
+  callMoveLoginNode() {
     this._authController.loginNodeControl(this.node);
   }
-  callToAuthCtr_callRegisterNode() {
-    console.log("comein");
+  callMoveRegisterNode() {
     this._authController.registerNodeControl(this.node);
   }
 }

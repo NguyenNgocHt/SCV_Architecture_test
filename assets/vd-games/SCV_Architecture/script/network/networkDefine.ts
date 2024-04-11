@@ -1,4 +1,4 @@
-export const GAME_EVENT_DEFINE = {
+export const GAME_EVENT = {
   //loading  screen event mesenger
   START_LOADING_ASSETS: "start loading assets",
   PROGRESS_BAR_POINT: "progress bar point",

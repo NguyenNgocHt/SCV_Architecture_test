@@ -22,6 +22,7 @@ export class authView extends Component implements login_iAuthView {
       .start();
     rightNode.active = true;
     rightNode.setWorldPosition(this.rightPos.getWorldPosition());
+
     tween(rightNode).to(0.8, { worldPosition: this.centerPos.getWorldPosition() }, { easing: "backInOut" }).start();
   }
 }

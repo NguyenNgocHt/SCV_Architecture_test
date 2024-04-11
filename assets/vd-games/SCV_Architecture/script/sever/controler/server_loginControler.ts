@@ -2,7 +2,7 @@ import { _decorator } from "cc";
 import { sever_iLoginModel, sever_iLoginSevice } from "../../interfaces/sever_interfaces";
 import { sever_loginSevice } from "../sevice/sever_loginSevice";
 import { VDEventListener } from "../../../../../vd-framework/common/VDEventListener";
-import { GAME_EVENT_DEFINE } from "../../network/networkDefine";
+import { GAME_EVENT } from "../../network/networkDefine";
 import { sever_loginModel } from "../model/sever_loginModel";
 const { ccclass, property } = _decorator;
 
@@ -30,16 +30,16 @@ export class server_loginControler {
   }
   registerEvent_loginControler() {
     //commit from loginSevice
-    VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER, this.getLoginResulData.bind(this));
+    VDEventListener.on(GAME_EVENT.SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER, this.getLoginResulData.bind(this));
     //commit from loginModel
-    VDEventListener.on(GAME_EVENT_DEFINE.LOGIN_PACKAGE_HAS_ARRIVED_AT_THE_SERVER, this.getPlayerListFromPlayerControler.bind(this));
+    VDEventListener.on(GAME_EVENT.LOGIN_PACKAGE_HAS_ARRIVED_AT_THE_SERVER, this.getPlayerListFromPlayerControler.bind(this));
     //commit from playerControler
-    VDEventListener.on(GAME_EVENT_DEFINE.SEND_PLAYER_LIST_TO_LOGIN_CONTROLER, this.getPlayerListAndSendToLoginSevice.bind(this));
+    VDEventListener.on(GAME_EVENT.SEND_PLAYER_LIST_TO_LOGIN_CONTROLER, this.getPlayerListAndSendToLoginSevice.bind(this));
   }
   offEvent() {
-    VDEventListener.off(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER, this.getLoginResulData.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.LOGIN_PACKAGE_HAS_ARRIVED_AT_THE_SERVER, this.getPlayerListFromPlayerControler.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.SEND_PLAYER_LIST_TO_LOGIN_CONTROLER, this.getPlayerListAndSendToLoginSevice.bind(this));
+    VDEventListener.off(GAME_EVENT.SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER, this.getLoginResulData.bind(this));
+    VDEventListener.off(GAME_EVENT.LOGIN_PACKAGE_HAS_ARRIVED_AT_THE_SERVER, this.getPlayerListFromPlayerControler.bind(this));
+    VDEventListener.off(GAME_EVENT.SEND_PLAYER_LIST_TO_LOGIN_CONTROLER, this.getPlayerListAndSendToLoginSevice.bind(this));
   }
   initInterfaces() {
     this._iLoginSevice = new sever_loginSevice();
@@ -49,15 +49,15 @@ export class server_loginControler {
     if (isStatusLogin) {
       let loginResultData = this._iLoginSevice.getLoginResultData();
       let loginDataSendToSever = this._iLoginSevice.getLoginDataSendToSever();
-      VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_CLIENT, JSON.stringify(loginResultData));
-      VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_PLAYER_CONTROLER, loginDataSendToSever);
+      VDEventListener.dispatchEvent(GAME_EVENT.SEND_LOGIN_DATA_TO_CLIENT, JSON.stringify(loginResultData));
+      VDEventListener.dispatchEvent(GAME_EVENT.SEND_LOGIN_DATA_TO_PLAYER_CONTROLER, loginDataSendToSever);
     } else {
       let loginResultData = this._iLoginSevice.getLoginResultData();
-      VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_CLIENT, JSON.stringify(loginResultData));
+      VDEventListener.dispatchEvent(GAME_EVENT.SEND_LOGIN_DATA_TO_CLIENT, JSON.stringify(loginResultData));
     }
   }
   getPlayerListFromPlayerControler() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.GET_PLAYER_LIST_AND_SEND_TO_LOGIN_CONTROLER);
+    VDEventListener.dispatchEvent(GAME_EVENT.GET_PLAYER_LIST_AND_SEND_TO_LOGIN_CONTROLER);
   }
   getPlayerListAndSendToLoginSevice(data) {
     let playerList = data;

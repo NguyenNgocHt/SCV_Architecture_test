@@ -2,8 +2,6 @@ import { _decorator, Component, sys, Label } from "cc";
 import { ILoadingController, loading_iLoadingView } from "../../../interfaces/loading_interfaces";
 import { ProgressBar } from "cc";
 import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
-import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
-import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
 import { PATH } from "../../../common/define";
 import VDBasePopup from "../../../../../../vd-framework/ui/VDBasePopup";
 import { PopupNotify } from "../../../popups/PopupNotify";
@@ -50,6 +48,7 @@ export class loadingView extends Component implements loading_iLoadingView {
         popupDisplay.setupPopup(mesenger, [
           () => {
             VDScreenManager.instance.hidePopup(true);
+
             this._loadingControler.startLoadingAsset();
           },
           () => {

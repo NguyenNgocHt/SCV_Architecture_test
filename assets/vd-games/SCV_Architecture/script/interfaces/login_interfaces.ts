@@ -39,8 +39,8 @@ export interface IAuthController {
 }
 export interface ILoginController {
   init(authController: IAuthController);
-  callToAuthCtr_callRegisterNode();
-  callToAuthCtr_callPlayNowNode();
+  callMoveRegisterNode();
+  callMovePlayNowNode();
   sendLoginDtaToSever(data: loginDataType_sendToSever);
   switchToTheHomeScreen();
   setShowMsg_userNameWrong();
@@ -49,13 +49,13 @@ export interface ILoginController {
 }
 export interface IPlayNowController {
   init(authController: IAuthController);
-  callToAuthCtr_callLoginNode();
-  callToAuthCtr_callRegisterNode();
+  callMoveLoginNode();
+  callMoveRegisterNode();
 }
 export interface IRegisterController {
   init(authController: IAuthController);
-  AuthCtr_LoginNode();
-  callToAuthCtr_CallPlayNowNode();
+ callMoveLoginNode();
+ callMovePlayNowNode();
   checkRegisterData(msgData);
 }
 export interface IPlayNowView {

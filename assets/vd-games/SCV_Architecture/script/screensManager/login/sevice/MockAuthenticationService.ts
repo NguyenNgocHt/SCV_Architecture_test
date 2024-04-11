@@ -24,25 +24,23 @@ export class MockAuthenticationService implements IAuthenticationService {
     }
     return this.checkStatusLogin(this._isStatusUseName, this._isStatusPassword);
   }
+  
   checkStatusLogin(isStatusUserName: boolean, isStatusPassword): loginResult {
     if (isStatusUserName && isStatusPassword) {
       this._isStatusLogin = true;
-      console.log("login success");
+
       return this.setLoginResultData();
     } else if (isStatusUserName && !isStatusPassword) {
       this._isStatusLogin = false;
-      console.log("login false");
-      console.log("password wrong");
+
       return this.setLoginResultData();
     } else if (!isStatusUserName && isStatusPassword) {
       this._isStatusLogin = false;
-      console.log("login false");
-      console.log("user name wrong");
+
       return this.setLoginResultData();
     } else if (!isStatusUserName && !isStatusPassword) {
       this._isStatusLogin = false;
-      console.log("login false");
-      console.log("user name , password wrong");
+
       return this.setLoginResultData();
     }
   }
@@ -57,6 +55,7 @@ export class MockAuthenticationService implements IAuthenticationService {
     };
     return loginResult;
   }
+
   getPlayerInfoPackage(userName: string, password: string): playerInfoPackage {
     this._playerInfo = {
       ID: CLIENT_COMMAN_ID_IP.PLAYER_INFO_ID,

@@ -1,8 +1,6 @@
 import { ILoadingController, loading_iAudioModel, loading_iPrefabModel } from "../../../interfaces/loading_interfaces";
 import { _decorator, sys, Asset, AudioClip } from "cc";
 import { loading_iAssetsSevice, loading_iImagesModel } from "../../../interfaces/loading_interfaces";
-import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
-import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
 import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
 import { MESENGER } from "../../../common/define";
 import { imageModel } from "../model/imageModel";
@@ -12,35 +10,43 @@ const { ccclass, property } = _decorator;
 
 @ccclass("assetsSevice")
 export class assetsSevice implements loading_iAssetsSevice {
-  private _iImagesModel: loading_iImagesModel = null;
-  private _iPrefabModel: loading_iPrefabModel = null;
-  private _iAudioModel: loading_iAudioModel = null;
+  private _imagesModel: loading_iImagesModel = null;
+  private _prefabModel: loading_iPrefabModel = null;
+  private _audioModel: loading_iAudioModel = null;
   private _loadingController: ILoadingController = null;
 
   private _audios: { [key: string]: string } = {};
   private _items: string[] = [];
 
   progressBar_current: number = 0;
+
   initInterfaces(loadingControler: ILoadingController) {
-    this._iImagesModel = new imageModel();
-    this._iPrefabModel = new prefabModel();
-    this._iAudioModel = new audioModel();
+    this._imagesModel = new imageModel();
+    this._prefabModel = new prefabModel();
+    this._audioModel = new audioModel();
+
     this._loadingController = loadingControler;
   }
 
   loadingAssets() {
     this._items = this.getAllItems();
+
     let percent = 1.0 / (this._items.length + 1);
     console.log("items", this._items);
+
     this._loadAsset(0, percent);
   }
 
   getAllItems(): string[] {
     let allItems: string[] = [];
-    let imagesDirs = this._iImagesModel.getImagesDirsData();
-    let audioDirs = this._iAudioModel.getSoundDirsData();
-    let prefabDirs = this._iPrefabModel.getPrefabDirds();
-    let prefabPaths = this._iPrefabModel.getPrefabsPath();
+    let imagesDirs = this._imagesModel.getImagesDirsData();
+
+    let audioDirs = this._audioModel.getSoundDirsData();
+
+    let prefabDirs = this._prefabModel.getPrefabDirds();
+
+    let prefabPaths = this._prefabModel.getPrefabsPath();
+
     allItems = audioDirs.concat(imagesDirs).concat(audioDirs).concat(prefabDirs).concat(prefabPaths);
     return allItems;
   }
@@ -48,7 +54,9 @@ export class assetsSevice implements loading_iAssetsSevice {
   private _loadAsset(index: number, totalPercent: number) {
     if (index >= this._items.length) {
       this._loadingController.updateLoadingView_progressBar(1.0);
+
       this._finishedLoading();
+
       return;
     }
     let path = this._items[index];
@@ -67,6 +75,7 @@ export class assetsSevice implements loading_iAssetsSevice {
         (err, data) => {
           if (sys.isNative && (path.endsWith("/bgm/") || path.endsWith("/sfx/"))) {
             this._loadingController.getAudiosFromAudioSevice();
+
             console.log(`AudioClip loaded:${JSON.stringify(this._audios)}`);
             let assets: Asset[] = data;
             for (let as of assets) {
@@ -93,6 +102,7 @@ export class assetsSevice implements loading_iAssetsSevice {
         (finished, total) => {
           console.log(`${finished} / ${total} `);
           let progress = index * totalPercent + (finished / total) * totalPercent;
+
           this._loadingController.updateLoadingView_progressBar(progress);
         },
         (err, data) => {

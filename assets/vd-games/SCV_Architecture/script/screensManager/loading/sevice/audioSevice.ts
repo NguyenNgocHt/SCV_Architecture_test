@@ -10,19 +10,21 @@ const { ccclass, property } = _decorator;
 @ccclass("audioSevice")
 export class audioSevice implements loading_iAudioSevice {
   private _audios: { [key: string]: string } = {};
-  private _iAudioModel: loading_iAudioModel = null;
+  private _audioModel: loading_iAudioModel = null;
 
   initInterfaces() {
-    this._iAudioModel = new audioModel();
+    this._audioModel = new audioModel();
   }
   loadingAudio() {
     console.log("loading Audio start");
+
     this.loadAudioWeb();
   }
   loadAudioWeb() {
     let soundDirs = ["res/sounds/bgm/", "res/sounds/sfx/"];
     soundDirs.forEach((soundsPath) => {
       const sounds = VDScreenManager.instance.assetBundle.getDirWithPath(soundsPath, AudioClip);
+
       sounds.forEach((sound) => {
         if (this._audios[`${sound.path}`]) return;
         const nativeUrl = assetManager.utils.getUrlWithUuid(sound.uuid, { isNative: true, nativeExt: ".mp3" });

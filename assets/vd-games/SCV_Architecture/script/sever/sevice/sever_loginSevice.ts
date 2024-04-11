@@ -1,9 +1,7 @@
 import { SEVER_COMMAN_ID_OP } from "./../../common/define";
-import { loading_iLoadingView } from "./../../interfaces/loading_interfaces";
-import { _decorator, Component, Node } from "cc";
-import { sendDataToSever } from "../../network/sendDataToSever";
+import { _decorator } from "cc";
 import { VDEventListener } from "../../../../../vd-framework/common/VDEventListener";
-import { GAME_EVENT_DEFINE } from "../../network/networkDefine";
+import { GAME_EVENT } from "../../network/networkDefine";
 import { loginDataType_sendToSever } from "../../dataModel/loginDataType_sendToSever";
 import { loginResult } from "../../dataModel/loginDataType_sendToClient";
 import { sever_iLoginModel, sever_iLoginResulModel, sever_iLoginSevice } from "../../interfaces/sever_interfaces";
@@ -96,7 +94,7 @@ export class sever_loginSevice implements sever_iLoginSevice {
   }
 
   sendLoginDataToLoginControler() {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER, this._isSatusLogin);
+    VDEventListener.dispatchEvent(GAME_EVENT.SEND_LOGIN_RESULT_TO_LOGIN_CONTROLER, this._isSatusLogin);
   }
 
   getLoginDataSendToSever(): loginDataType_sendToSever {

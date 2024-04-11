@@ -1,6 +1,6 @@
 import { _decorator, Component, Node } from "cc";
 import { VDEventListener } from "../../../../../vd-framework/common/VDEventListener";
-import { GAME_EVENT_DEFINE } from "../../network/networkDefine";
+import { GAME_EVENT } from "../../network/networkDefine";
 import { loginResult } from "../../dataModel/loginDataType_sendToClient";
 import { playerInfo, playerInfoPackage } from "../../dataModel/playerDataType";
 const { ccclass, property } = _decorator;
@@ -22,18 +22,18 @@ export class director_sendDataToScreensControler  {
     this.registerEvent();
   }
   registerEvent() {
-    VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_DATA_TO_SCREENS_CONTROLER, this.handleLoginResult.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.SEND_PLAYER_INFO_TO_SCREENS_CONTROLER, this.handlePlayerInfo.bind(this));
+    VDEventListener.on(GAME_EVENT.SEND_LOGIN_RESULT_DATA_TO_SCREENS_CONTROLER, this.handleLoginResult.bind(this));
+    VDEventListener.on(GAME_EVENT.SEND_PLAYER_INFO_TO_SCREENS_CONTROLER, this.handlePlayerInfo.bind(this));
   }
   handleLoginResult(loginResult: loginResult) {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_MODEL, loginResult);
+    VDEventListener.dispatchEvent(GAME_EVENT.SEND_LOGIN_RESULT_TO_LOGIN_MODEL, loginResult);
   }
   handlePlayerInfo(playersInfo: playerInfoPackage) {
     if (this.isLoginScreen) {
-      VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_PLAYER_INFO_TO_PLAYER_MODEL, playersInfo);
+      VDEventListener.dispatchEvent(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_MODEL, playersInfo);
     } else if (this.isHomeScreen) {
       console.log(playersInfo);
-      VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_PLAYER_INFO_TO_PLAYER_MODEL_IN_HOME, playersInfo);
+      VDEventListener.dispatchEvent(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_MODEL_IN_HOME, playersInfo);
     }
   }
 }

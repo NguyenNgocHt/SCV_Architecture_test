@@ -1,7 +1,6 @@
-import { authControler } from "./authControler";
 import { _decorator, Component, Prefab, instantiate, sp } from "cc";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
-import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
+import { GAME_EVENT } from "../../../network/networkDefine";
 import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
 import VDBaseScreen from "../../../../../../vd-framework/ui/VDBaseScreen";
 import { MESSENGER_DEFINE, Path } from "../../../common/Path";
@@ -20,61 +19,69 @@ export class loginControler extends Component implements ILoginController {
   @property(loginView)
   LoginView: loginView = null;
 
-  private _iLoginView: login_iLoginView = null;
-  private _iLoginSevice: login_iLoginSevice = null;
-  private _iLoginModel: login_iLoginModel = null;
-  private _iPlayerModel: login_iPlayerModel = null;
+  private _loginView: login_iLoginView = null;
+  private _loginSevice: login_iLoginSevice = null;
+  private _loginModel: login_iLoginModel = null;
+  private _playerModel: login_iPlayerModel = null;
   private _authenTicationSevice: IAuthenticationService = null;
   private _authController: IAuthController = null;
 
   init(authController: IAuthController) {
-    console.log("come in loginControler");
     this.initInterfaces(this.LoginView, authController);
+
     this.RegisterEvents();
   }
   //init
   initInterfaces(iLoginView: login_iLoginView, authControler: IAuthController) {
-    this._iLoginView = iLoginView;
-    this._iLoginSevice = new loginSevice();
+    this._loginView = iLoginView;
+    this._loginSevice = new loginSevice();
 
-    this._iLoginModel = new login_loginModel();
-    this._iPlayerModel = new login_playerModel();
+    this._loginModel = new login_loginModel();
+    this._playerModel = new login_playerModel();
     this._authenTicationSevice = new MockAuthenticationService();
 
     this._authController = authControler;
   }
 
   RegisterEvents() {
-    this._iLoginSevice.registerEvent();
-    this._iLoginModel.registerEvent();
-    this._iPlayerModel.registerEvent();
-    this._iLoginSevice.Init(this);
-    this._iLoginView.init(this);
+    this._loginSevice.registerEvent();
+
+    this._loginModel.registerEvent();
+
+    this._playerModel.registerEvent();
+
+    this._loginSevice.Init(this);
+
+    this._loginView.init(this);
   }
 
-  callToAuthCtr_callRegisterNode() {
+  callMoveRegisterNode() {
     this._authController.registerNodeControl(this.node);
   }
 
-  callToAuthCtr_callPlayNowNode() {
+  callMovePlayNowNode() {
     this._authController.playNowNodeControl(this.node);
   }
 
   sendLoginDtaToSever(data: loginDataType_sendToSever) {
     let loginResult = this._authenTicationSevice.process(data.userName, data.password);
+
     let playerInfo = this._authenTicationSevice.getPlayerInfoPackage(data.userName, data.password);
-    console.log("loginResult", loginResult);
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_MODEL, loginResult);
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_PLAYER_INFO_TO_PLAYER_MODEL, playerInfo);
+
+    VDEventListener.dispatchEvent(GAME_EVENT.SEND_LOGIN_RESULT_TO_LOGIN_MODEL, loginResult);
+
+    VDEventListener.dispatchEvent(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_MODEL, playerInfo);
   }
 
   switchToTheHomeScreen() {
     this.resetShowMessenger();
     let pfFxCloud = VDScreenManager.instance.assetBundle.get(Path.TRANSITION_CLOUD, Prefab)!;
     let nodeCloud = instantiate(pfFxCloud);
+
     VDScreenManager.instance.showEffect(nodeCloud);
 
     let spineCloud = nodeCloud.getComponent(sp.Skeleton);
+
     let entry = spineCloud.setAnimation(0, "transition_to_lucky", false);
 
     spineCloud.setTrackCompleteListener(entry, (x: any, ev: any) => {
@@ -87,6 +94,7 @@ export class loginControler extends Component implements ILoginController {
           play_screen,
           (screen: VDBaseScreen) => {
             director_sendDataToScreensControler.instance.isHomeScreen = true;
+
             director_sendDataToScreensControler.instance.isLoginScreen = false;
           },
           true
@@ -96,23 +104,26 @@ export class loginControler extends Component implements ILoginController {
   }
 
   resetShowMessenger() {
-    this._iLoginView.showMessenger_userNameWrong("");
-    this._iLoginView.showMessenger_passwordWrong("");
+    this._loginView.showMessenger_userNameWrong("");
+
+    this._loginView.showMessenger_passwordWrong("");
   }
 
   setShowMsg_userNameWrong() {
-    this._iLoginView.showMessenger_userNameWrong(MESSENGER_DEFINE.USER_NAME_WRONG);
-    this._iLoginView.showMessenger_passwordWrong("");
+    this._loginView.showMessenger_userNameWrong(MESSENGER_DEFINE.USER_NAME_WRONG);
+
+    this._loginView.showMessenger_passwordWrong("");
   }
 
   setShowMsg_passwordWrong() {
-    this._iLoginView.showMessenger_passwordWrong(MESSENGER_DEFINE.PASSWORD_WRONG);
-    this._iLoginView.showMessenger_userNameWrong("");
+    this._loginView.showMessenger_passwordWrong(MESSENGER_DEFINE.PASSWORD_WRONG);
+
+    this._loginView.showMessenger_userNameWrong("");
   }
 
   setShowMsg_userNameAndPasswordWrong() {
-    console.log("come in setShowMsg_userNameAndPasswordWrong");
-    this._iLoginView.showMessenger_userNameWrong(MESSENGER_DEFINE.USER_NAME_WRONG);
-    this._iLoginView.showMessenger_passwordWrong(MESSENGER_DEFINE.PASSWORD_WRONG);
+    this._loginView.showMessenger_userNameWrong(MESSENGER_DEFINE.USER_NAME_WRONG);
+
+    this._loginView.showMessenger_passwordWrong(MESSENGER_DEFINE.PASSWORD_WRONG);
   }
 }

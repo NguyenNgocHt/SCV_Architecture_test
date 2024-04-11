@@ -4,6 +4,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass("prefabModel")
 export class prefabModel implements loading_iPrefabModel {
+  
   _prefabDirs = ["res/anims/prefabs/", "res/prefabs/popup/"];
   _prefabs = ["res/prefabs/transition/transition_cloud", "res/prefabs/screen/home_screen", "res/prefabs/screen/login_screen", "res/prefabs/screen/play_screen"];
 

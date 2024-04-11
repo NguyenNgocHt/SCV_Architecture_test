@@ -1,6 +1,6 @@
 import { _decorator, Component, Node } from "cc";
 import { VDEventListener } from "../../../../vd-framework/common/VDEventListener";
-import { GAME_EVENT_DEFINE } from "./networkDefine";
+import { GAME_EVENT } from "./networkDefine";
 import { CLIENT_COMMAN_ID_IP } from "../common/define";
 const { ccclass, property } = _decorator;
 
@@ -15,12 +15,12 @@ export class eventListener {
     return this._instance;
   }
   registerEvent() {
-    VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_CLIENT, this.getLoginData.bind(this));
-    VDEventListener.on(GAME_EVENT_DEFINE.SEND_PLAYER_INFO_TO_CLIENT, this.getPlayerInfo.bind(this));
+    VDEventListener.on(GAME_EVENT.SEND_LOGIN_DATA_TO_CLIENT, this.getLoginData.bind(this));
+    VDEventListener.on(GAME_EVENT.SEND_PLAYER_INFO_TO_CLIENT, this.getPlayerInfo.bind(this));
   }
   offEvent() {
-    VDEventListener.off(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_CLIENT, this.getLoginData.bind(this));
-    VDEventListener.off(GAME_EVENT_DEFINE.SEND_PLAYER_INFO_TO_CLIENT, this.getPlayerInfo.bind(this));
+    VDEventListener.off(GAME_EVENT.SEND_LOGIN_DATA_TO_CLIENT, this.getLoginData.bind(this));
+    VDEventListener.off(GAME_EVENT.SEND_PLAYER_INFO_TO_CLIENT, this.getPlayerInfo.bind(this));
   }
   getLoginData(data) {
     console.log(data);
@@ -48,9 +48,9 @@ export class eventListener {
     }
   }
   sendLoginResultToDirector(dataJson) {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_DATA_TO_DIRECTOR, dataJson);
+    VDEventListener.dispatchEvent(GAME_EVENT.SEND_LOGIN_RESULT_DATA_TO_DIRECTOR, dataJson);
   }
   sendPlayerInfoToDirector(dataJson) {
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_PLAYER_INFO_TO_DIRECTOR, dataJson);
+    VDEventListener.dispatchEvent(GAME_EVENT.SEND_PLAYER_INFO_TO_DIRECTOR, dataJson);
   }
 }

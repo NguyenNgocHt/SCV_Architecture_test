@@ -8,6 +8,7 @@ const { ccclass, property } = _decorator;
 @ccclass("mockHomeSevice")
 export class mockHomeSevice implements IHomeSevice {
   private _playerInfo: playerInfoPackage = null;
+
   getPlayerInfoByPlayerID(playerID: number): playerInfoPackage {
     this._playerInfo = {
       ID: CLIENT_COMMAN_ID_IP.PLAYER_INFO_ID,
@@ -16,6 +17,7 @@ export class mockHomeSevice implements IHomeSevice {
       playerID: 1034,
       money: 1000,
     };
+
     return this._playerInfo;
   }
 }

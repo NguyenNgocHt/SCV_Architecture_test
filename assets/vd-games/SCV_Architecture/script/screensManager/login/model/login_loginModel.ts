@@ -1,6 +1,6 @@
 import { _decorator } from "cc";
 import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
-import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
+import { GAME_EVENT } from "../../../network/networkDefine";
 import { loginResult } from "../../../dataModel/loginDataType_sendToClient";
 import { login_iLoginModel } from "../../../interfaces/login_interfaces";
 const { ccclass, property } = _decorator;
@@ -9,14 +9,15 @@ const { ccclass, property } = _decorator;
 export class login_loginModel implements login_iLoginModel {
   _loginResult: loginResult = null;
   registerEvent() {
-    VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_MODEL, this.handleLoginResult.bind(this));
+    VDEventListener.on(GAME_EVENT.SEND_LOGIN_RESULT_TO_LOGIN_MODEL, this.handleLoginResult.bind(this));
   }
   offEvent() {
-    VDEventListener.off(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_MODEL, this.handleLoginResult.bind(this));
+    VDEventListener.off(GAME_EVENT.SEND_LOGIN_RESULT_TO_LOGIN_MODEL, this.handleLoginResult.bind(this));
   }
   handleLoginResult(loginResult: loginResult) {
     this.setLoginResul(loginResult);
-    VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_RESULT_TO_LOGIN_SEVICE, loginResult);
+
+    VDEventListener.dispatchEvent(GAME_EVENT.SEND_LOGIN_RESULT_TO_LOGIN_SEVICE, loginResult);
   }
   setLoginResul(loginResult: loginResult) {
     this._loginResult = loginResult;

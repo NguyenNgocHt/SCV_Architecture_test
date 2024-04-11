@@ -1,6 +1,6 @@
 import { _decorator } from "cc";
 import { VDEventListener } from "../../../../../vd-framework/common/VDEventListener";
-import { GAME_EVENT_DEFINE } from "../../network/networkDefine";
+import { GAME_EVENT } from "../../network/networkDefine";
 import { SEVER_COMMAN_ID_IP } from "../../common/define";
 import { loginDataType_sendToSever } from "../../dataModel/loginDataType_sendToSever";
 import { sever_iLoginModel } from "../../interfaces/sever_interfaces";
@@ -20,10 +20,10 @@ export class sever_loginModel implements sever_iLoginModel {
   }
   private loginDataSendToSever: loginDataType_sendToSever = null;
   registerEvent() {
-    VDEventListener.on(GAME_EVENT_DEFINE.SEND_LOGIN_NODE_DATA_TO_SEVER, this.handleLoginData.bind(this));
+    VDEventListener.on(GAME_EVENT.SEND_LOGIN_NODE_DATA_TO_SEVER, this.handleLoginData.bind(this));
   }
   offEvent() {
-    VDEventListener.off(GAME_EVENT_DEFINE.SEND_LOGIN_NODE_DATA_TO_SEVER, this.handleLoginData.bind(this));
+    VDEventListener.off(GAME_EVENT.SEND_LOGIN_NODE_DATA_TO_SEVER, this.handleLoginData.bind(this));
   }
   handleLoginData(msg) {
     console.log("msg in sever", msg);
@@ -34,8 +34,8 @@ export class sever_loginModel implements sever_iLoginModel {
       case SEVER_COMMAN_ID_IP.LOGIN_ID:
         console.log("data json", dataJson);
         this.setLoginData_sendToSever(dataJson);
-        // VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.SEND_LOGIN_DATA_TO_LOGIN_SEVICE, dataJson);
-        VDEventListener.dispatchEvent(GAME_EVENT_DEFINE.LOGIN_PACKAGE_HAS_ARRIVED_AT_THE_SERVER);
+        // VDEventListener.dispatchEvent(GAME_EVENT.SEND_LOGIN_DATA_TO_LOGIN_SEVICE, dataJson);
+        VDEventListener.dispatchEvent(GAME_EVENT.LOGIN_PACKAGE_HAS_ARRIVED_AT_THE_SERVER);
         break;
     }
   }

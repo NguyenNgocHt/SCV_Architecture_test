@@ -1,6 +1,4 @@
 import { _decorator, Component, Node } from "cc";
-import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
-import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
 import { loginDataType_sendToSever } from "../../../dataModel/loginDataType_sendToSever";
 import { EditBox } from "cc";
 import { CLIENT_COMMAN_ID_OP } from "../../../common/define";
@@ -19,6 +17,7 @@ export class loginView extends Component implements login_iLoginView {
   NotifyForUserName: Label = null;
   @property(Label)
   NotifyForPassword: Label = null;
+
   private _loginController: ILoginController = null;
 
   init(loginControler: ILoginController) {
@@ -26,11 +25,11 @@ export class loginView extends Component implements login_iLoginView {
   }
 
   onClickResgistrationButton() {
-    this._loginController.callToAuthCtr_callRegisterNode();
+    this._loginController.callMoveRegisterNode();
   }
 
   onClickPlayNowButton() {
-    this._loginController.callToAuthCtr_callPlayNowNode();
+    this._loginController.callMovePlayNowNode();
   }
 
   onClickLoginButton() {

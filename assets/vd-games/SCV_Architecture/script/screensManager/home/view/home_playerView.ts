@@ -13,14 +13,18 @@ export class home_playerView extends Component implements home_iPlayerView {
   Coin: Label = null;
   @property(Sprite)
   Avatar: Sprite = null;
+
   setUserName(userName: string) {
     this.UserName.string = userName;
   }
+
   setCoin(coin: number) {
     this.Coin.string = Global.instance.formatNumberWithCommas(coin);
   }
+
   setAvatarByAvatarID(avatarID: number) {
     let spriteFrame = Global.instance.getAvatarByID(avatarID);
+
     this.Avatar.spriteFrame = spriteFrame;
   }
 }

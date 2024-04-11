@@ -1,21 +1,8 @@
-import { prefabModel } from "./../model/prefabModel";
-import { audioModel } from "./../model/audioModel";
 import { _decorator, Component, Prefab } from "cc";
-import {
-  ILoadingController,
-  loading_iAssetsSevice,
-  loading_iAudioModel,
-  loading_iAudioSevice,
-  loading_iImagesModel,
-  loading_iLoadingView,
-  loading_iPrefabModel,
-} from "../../../interfaces/loading_interfaces";
+import { ILoadingController, loading_iAssetsSevice, loading_iAudioSevice, loading_iLoadingView } from "../../../interfaces/loading_interfaces";
 import { audioSevice } from "../sevice/audioSevice";
 import { assetsSevice } from "../sevice/assetsSevice";
-import { imageModel } from "../model/imageModel";
 import { loadingView } from "../view/loadingView";
-import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
-import { GAME_EVENT_DEFINE } from "../../../network/networkDefine";
 import { Config } from "../../../common/Config";
 import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
 import VDBaseScreen from "../../../../../../vd-framework/ui/VDBaseScreen";
@@ -27,9 +14,9 @@ const { ccclass, property } = _decorator;
 export class loadingControler extends Component implements ILoadingController {
   @property(loadingView)
   LoadingView: loadingView = null;
-  _iAudioSevice: loading_iAudioSevice = null;
-  _iAssetsSevice: loading_iAssetsSevice = null;
-  _iLoadingView: loading_iLoadingView = null;
+  _audioSevice: loading_iAudioSevice = null;
+  _assetsSevice: loading_iAssetsSevice = null;
+  _loadingView: loading_iLoadingView = null;
   progressCurrent: number = 0;
   onLoad() {
     this.initInterfaces(this.LoadingView);
@@ -47,57 +34,57 @@ export class loadingControler extends Component implements ILoadingController {
     this.initInterfaces_loadingView();
   }
   initInterfaces_isMe(iLoadingView: loading_iLoadingView) {
-    this._iAudioSevice = new audioSevice();
-    this._iAssetsSevice = new assetsSevice();
-    this._iLoadingView = iLoadingView;
+    this._audioSevice = new audioSevice();
+    this._assetsSevice = new assetsSevice();
+    this._loadingView = iLoadingView;
   }
 
   initInterfaces_audioSevice() {
-    this._iAudioSevice.initInterfaces();
+    this._audioSevice.initInterfaces();
   }
 
   initInterfaces_assetsSevice() {
-    this._iAssetsSevice.initInterfaces(this);
+    this._assetsSevice.initInterfaces(this);
   }
 
   initInterfaces_loadingView() {
-    this._iLoadingView.init(this);
+    this._loadingView.init(this);
   }
   //controler audio sevice
   loadingStart() {
-    this._iAudioSevice.loadingAudio();
+    this._audioSevice.loadingAudio();
     this.startLoadingView();
   }
 
   initAudios() {
-    this._iAudioSevice.initAudio();
+    this._audioSevice.initAudio();
   }
 
   //controler assets sevice
   startLoadingAsset() {
-    this._iAssetsSevice.loadingAssets();
+    this._assetsSevice.loadingAssets();
   }
 
   getAudiosFromAudioSevice() {
-    let audios = this._iAudioSevice.getAudios();
-    this._iAssetsSevice.setAudiosData(audios);
+    let audios = this._audioSevice.getAudios();
+    this._assetsSevice.setAudiosData(audios);
   }
 
   //controler loading view
   updateLoadingView_progressBar(updatePoint: number) {
-    this._iLoadingView.updateProgressBar(updatePoint);
+    this._loadingView.updateProgressBar(updatePoint);
   }
 
   showPopupMessage(message: string) {
-    this._iLoadingView.showMessenger(message);
+    this._loadingView.showMessenger(message);
   }
 
   setVersion(versionGame: string) {
-    this._iLoadingView.setVersion(versionGame);
+    this._loadingView.setVersion(versionGame);
   }
 
   startLoadingView() {
-    this._iLoadingView.startView();
+    this._loadingView.startView();
   }
 
   screenChange() {

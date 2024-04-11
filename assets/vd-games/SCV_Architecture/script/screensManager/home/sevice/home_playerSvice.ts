@@ -9,7 +9,9 @@ const { ccclass, property } = _decorator;
 export class home_playerSevice implements home_iPlayerSevice {
   getPlayerID(): number {
     let playerInfo: playerInfo = null;
+
     playerInfo = JSON.parse(sys.localStorage.getItem(LOCAL_STORAGE_KEY_WORD.PLAYER_INFO));
+
     return playerInfo.playerID;
   }
 }
