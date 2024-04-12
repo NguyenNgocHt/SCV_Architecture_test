@@ -1,17 +1,16 @@
 import { _decorator } from "cc";
 import { EventListener } from "../../../../../../vd-framework/common/EventListener";
 import { GAME_EVENT } from "../../../network/networkDefine";
-import { loginResult } from "../../../dataModel/loginDataType_sendToClient";
-import { ILoginModel_login, ILoginSevice_login } from "../../../interfaces/login_interfaces";
-import { loginSevice } from "../sevice/loginSevice";
+import { loginResult } from "../../../dataModel/LoginDataType_sendToClient";
+import { ILoginModel, ILoginSevice } from "../../../interfaces/Login_interfaces";
 const { ccclass, property } = _decorator;
 
-@ccclass("login_loginModel")
-export class login_loginModel implements ILoginModel_login {
+@ccclass("LoginModel")
+export class LoginModel implements ILoginModel {
   _loginResult: loginResult = null;
-  _loginSevice: ILoginSevice_login = null;
+  _loginSevice: ILoginSevice = null;
 
-  init(loginService: ILoginSevice_login) {
+  constructor(loginService: ILoginSevice) {
     this._loginSevice = loginService;
     this.registerEvent();
   }

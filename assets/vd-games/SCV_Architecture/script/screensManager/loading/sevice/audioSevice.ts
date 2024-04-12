@@ -3,17 +3,17 @@ import { _decorator, Component, Node, AudioClip } from "cc";
 import ScreenManager from "../../../../../../vd-framework/ui/ScreenManager";
 import { assetManager } from "cc";
 import LocalDataManager from "../../../../../../vd-framework/common/LocalDataManager";
-import { IAudioModel_loading, IAudioSevice_loading } from "../../../interfaces/loading_interfaces";
-import { audioModel } from "../model/audioModel";
+import { IAudioModel_loading, IAudioSevice_loading } from "../../../interfaces/Loading_interfaces";
+import { AudioModel } from "../model/AudioModel";
 const { ccclass, property } = _decorator;
 
-@ccclass("audioSevice")
-export class audioSevice implements IAudioSevice_loading {
+@ccclass("AudioSevice")
+export class AudioSevice implements IAudioSevice_loading {
   private _audios: { [key: string]: string } = {};
   private _audioModel: IAudioModel_loading = null;
 
-  initInterfaces() {
-    this._audioModel = new audioModel();
+  init() {
+    this._audioModel = new AudioModel();
   }
   loadingAudio() {
     console.log("loading Audio start");

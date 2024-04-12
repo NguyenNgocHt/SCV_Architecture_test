@@ -1,4 +1,4 @@
-import { playerInfo, playerInfoPackage } from "../dataModel/playerDataType";
+import { playerInfo, playerInfoPackage } from "../dataModel/PlayerDataType";
 
 export interface IPlayerModel_Home {
   setPlayerInfo(playerInfo: playerInfoPackage);
@@ -10,7 +10,7 @@ export interface IPlayerSevice_home {
   getPlayerID(): number;
 }
 
-export interface IPlayerView_home {
+export interface IPlayerView {
   setUserName(userName: string);
   setCoin(coin: number);
   setAvatarByAvatarID(avatarID: number);

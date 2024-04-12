@@ -1,24 +1,24 @@
 import { _decorator, Component, Prefab } from "cc";
-import { ILoadingController, IAssetsSevice_loading, IAudioSevice_loading, ILoadingView_loading } from "../../../interfaces/loading_interfaces";
-import { audioSevice } from "../sevice/audioSevice";
-import { assetsSevice } from "../sevice/assetsSevice";
-import { loadingView } from "../view/loadingView";
+import { ILoadingController, IAssetsSevice_loading, IAudioSevice_loading, ILoadingView_loading } from "../../../interfaces/Loading_interfaces";
+import { AudioSevice } from "../sevice/AudioSevice";
+import { AssetsSevice } from "../sevice/AssetsSevice";
+import { LoadingView } from "../view/LoadingView";
 import { Config } from "../../../common/Config";
 import ScreenManager from "../../../../../../vd-framework/ui/ScreenManager";
 import BaseScreen from "../../../../../../vd-framework/ui/BaseScreen";
 import { PATH } from "../../../common/define";
 const { ccclass, property } = _decorator;
 
-@ccclass("loadingControler")
-export class loadingControler extends Component implements ILoadingController {
-  @property(loadingView)
-  LoadingView: loadingView = null;
+@ccclass("LoadingControler")
+export class LoadingControler extends Component implements ILoadingController {
+  @property(LoadingView)
+  LoadingView: LoadingView = null;
   _audioSevice: IAudioSevice_loading = null;
   _assetsSevice: IAssetsSevice_loading = null;
   _loadingView: ILoadingView_loading = null;
   progressCurrent: number = 0;
   onLoad() {
-    this.initInterfaces(this.LoadingView);
+    this.init(this.LoadingView);
   }
 
   start() {
@@ -26,27 +26,27 @@ export class loadingControler extends Component implements ILoadingController {
     this.setVersion(Config.versionGame);
   }
 
-  initInterfaces(iloadingView: ILoadingView_loading) {
-    this.initInterfaces_isMe(iloadingView);
-    this.initInterfaces_audioSevice();
-    this.initInterfaces_assetsSevice();
-    this.initInterfaces_loadingView();
+  init(iloadingView: ILoadingView_loading) {
+    this.init_isMe(iloadingView);
+    this.init_audioSevice();
+    this.init_assetsSevice();
+    this.init_loadingView();
   }
-  initInterfaces_isMe(iLoadingView: ILoadingView_loading) {
-    this._audioSevice = new audioSevice();
-    this._assetsSevice = new assetsSevice();
+  init_isMe(iLoadingView: ILoadingView_loading) {
+    this._audioSevice = new AudioSevice();
+    this._assetsSevice = new AssetsSevice();
     this._loadingView = iLoadingView;
   }
 
-  initInterfaces_audioSevice() {
-    this._audioSevice.initInterfaces();
+  init_audioSevice() {
+    this._audioSevice.init();
   }
 
-  initInterfaces_assetsSevice() {
-    this._assetsSevice.initInterfaces(this);
+  init_assetsSevice() {
+    this._assetsSevice.init(this);
   }
 
-  initInterfaces_loadingView() {
+  init_loadingView() {
     this._loadingView.init(this);
   }
   //controler audio sevice
@@ -88,11 +88,6 @@ export class loadingControler extends Component implements ILoadingController {
 
   screenChange() {
     let play_screen = ScreenManager.instance.assetBundle.get(PATH.LOGIN_SCREEN, Prefab)!;
-    ScreenManager.instance.pushScreen(
-      play_screen,
-      (screen: BaseScreen) => {
-      },
-      true
-    );
+    ScreenManager.instance.pushScreen(play_screen, (screen: BaseScreen) => {}, true);
   }
 }

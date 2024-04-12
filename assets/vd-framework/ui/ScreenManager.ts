@@ -945,7 +945,6 @@ export default class ScreenManager extends cc.Component {
     this.layerEffect.addChild(fxNode);
     if (animationName.length) {
       Utils.playAnimation(fxNode, animationName, false, () => {
-        // console.log(`showEffect: finished`);
         completedCallback && completedCallback();
         this.layerEffect.removeChild(fxNode);
         fxNode.destroy();

@@ -5,7 +5,7 @@ export interface IAudioModel_loading {
 }
 
 export interface IAudioSevice_loading {
-  initInterfaces(): void;
+  init(): void;
 
   loadingAudio(): void;
 
@@ -17,7 +17,7 @@ export interface IAudioSevice_loading {
 }
 
 export interface IAssetsSevice_loading {
-  initInterfaces(loadingControler: ILoadingController);
+  init(loadingControler: ILoadingController);
 
   loadingAssets(): void;
 

@@ -1,5 +1,5 @@
 import { _decorator, Component, sys, Label } from "cc";
-import { ILoadingController, ILoadingView_loading } from "../../../interfaces/loading_interfaces";
+import { ILoadingController, ILoadingView_loading } from "../../../interfaces/Loading_interfaces";
 import { ProgressBar } from "cc";
 import ScreenManager from "../../../../../../vd-framework/ui/ScreenManager";
 import { PATH } from "../../../common/define";
@@ -8,8 +8,8 @@ import { PopupNotify } from "../../../popups/PopupNotify";
 import { Path } from "../../../common/Path";
 const { ccclass, property } = _decorator;
 
-@ccclass("loadingView")
-export class loadingView extends Component implements ILoadingView_loading {
+@ccclass("LoadingView")
+export class LoadingView extends Component implements ILoadingView_loading {
   @property(ProgressBar)
   loadingProgress: ProgressBar = null!;
 

@@ -1,12 +1,12 @@
-import { _decorator, Component, Node } from "cc";
-import { IHomeSevice } from "../../../interfaces/home_interfaces";
+import { _decorator } from "cc";
+import { IHomeSevice } from "../../../interfaces/Home_interfaces";
 import { playerInfoPackage } from "../../../dataModel/playerDataType";
 import { CLIENT_COMMAN_ID_IP } from "../../../common/define";
 CLIENT_COMMAN_ID_IP;
 const { ccclass, property } = _decorator;
 
-@ccclass("mockHomeSevice")
-export class mockHomeSevice implements IHomeSevice {
+@ccclass("MockHomeSevice")
+export class MockHomeSevice implements IHomeSevice {
   private _playerInfo: playerInfoPackage = null;
 
   getPlayerInfoByPlayerID(playerID: number): playerInfoPackage {

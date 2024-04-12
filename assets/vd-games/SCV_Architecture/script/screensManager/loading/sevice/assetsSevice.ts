@@ -1,15 +1,15 @@
-import { ILoadingController, IAudioModel_loading, IPrefabModel_loading } from "../../../interfaces/loading_interfaces";
+import { ILoadingController, IAudioModel_loading, IPrefabModel_loading } from "../../../interfaces/Loading_interfaces";
 import { _decorator, sys, Asset, AudioClip } from "cc";
-import { IAssetsSevice_loading, IImageModel_loading } from "../../../interfaces/loading_interfaces";
+import { IAssetsSevice_loading, IImageModel_loading } from "../../../interfaces/Loading_interfaces";
 import ScreenManager from "../../../../../../vd-framework/ui/ScreenManager";
 import { MESENGER } from "../../../common/define";
-import { imageModel } from "../model/imageModel";
-import { prefabModel } from "../model/prefabModel";
-import { audioModel } from "../model/audioModel";
+import { ImageModel } from "../model/ImageModel";
+import { PrefabModel } from "../model/PrefabModel";
+import { AudioModel } from "../model/AudioModel";
 const { ccclass, property } = _decorator;
 
 @ccclass("assetsSevice")
-export class assetsSevice implements IAssetsSevice_loading {
+export class AssetsSevice implements IAssetsSevice_loading {
   private _imagesModel: IImageModel_loading = null;
   private _prefabModel: IPrefabModel_loading = null;
   private _audioModel: IAudioModel_loading = null;
@@ -20,10 +20,10 @@ export class assetsSevice implements IAssetsSevice_loading {
 
   progressBar_current: number = 0;
 
-  initInterfaces(loadingControler: ILoadingController) {
-    this._imagesModel = new imageModel();
-    this._prefabModel = new prefabModel();
-    this._audioModel = new audioModel();
+  init(loadingControler: ILoadingController) {
+    this._imagesModel = new ImageModel();
+    this._prefabModel = new PrefabModel();
+    this._audioModel = new AudioModel();
 
     this._loadingController = loadingControler;
   }

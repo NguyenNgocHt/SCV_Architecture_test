@@ -3,74 +3,79 @@ import { EventListener } from "../../../../../../vd-framework/common/EventListen
 import { GAME_EVENT } from "../../../network/networkDefine";
 import ScreenManager from "../../../../../../vd-framework/ui/ScreenManager";
 import BaseScreen from "../../../../../../vd-framework/ui/BaseScreen";
-import { MESSENGER_DEFINE, Path } from "../../../common/Path";
-import { IAuthController, IAuthenticationService, ILoginController, ILoginModel_login, ILoginSevice_login, ILoginView_login, IPlayerModel_login } from "../../../interfaces/login_interfaces";
-import { loginView } from "../view/loginView";
-import { loginSevice } from "../sevice/loginSevice";
-import { login_loginModel } from "../model/login_loginModel";
-import { login_playerModel } from "../model/login_playerModel";
-import { loginData } from "../../../dataModel/loginDataType_sendToSever";
+import { MESSENGER_DEFINE, Path, SKELETON_KEY_WORK } from "../../../common/Path";
+import { IMockAuthenticationService, ILoginController, ILoginModel, ILoginSevice, ILoginView } from "../../../interfaces/Login_interfaces";
+import { LoginSevice } from "../sevice/LoginSevice";
+import { LoginModel } from "../model/LoginModel";
 import { MockAuthenticationService } from "../sevice/MockAuthenticationService";
+import { IPLayerInfo } from "../../../interfaces/Common_interfaces";
+import { PlayerInfo } from "../../../common/PlayerInfo";
+import { LoginView } from "../view/LoginView";
+import { loginData } from "../../../dataModel/LoginDataType_sendToSever";
 const { ccclass, property } = _decorator;
 
-@ccclass("loginControler")
-export class loginControler extends Component implements ILoginController {
-  @property(loginView)
-  LoginView: loginView = null;
+@ccclass("LoginController")
+export class LoginController extends Component implements ILoginController {
+  @property(LoginView)
+  LoginView: LoginView = null;
 
-  private _loginView: ILoginView_login = null;
-  private _loginSevice: ILoginSevice_login = null;
-  private _loginModel: ILoginModel_login = null;
-  private _playerModel: IPlayerModel_login = null;
-
-  private _authenTicationSevice: IAuthenticationService = null;
-
-  private _authController: IAuthController = null;
-
-  init(authController: IAuthController) {
-    this.initInterfaces(this.LoginView, authController);
-
-    this.RegisterEvents();
+  private _loginView: ILoginView = null;
+  private _loginSevice: ILoginSevice = null;
+  private _loginModel: ILoginModel = null;
+  private _mockAuthenTicationSevice: IMockAuthenticationService = null;
+  private _playerInfo: IPLayerInfo = null;
+  onLoad() {
+    this.init();
   }
+  init() {
+    this.initLoginView(this.LoginView);
+
+    this.initMockAuthenTicationService();
+
+    this.initLoginService();
+
+    this.initLoginModel();
+
+    this.init_playerInfo();
+
+    this.registerEvents();
+  }
+
   //init
-
-  initInterfaces(iLoginView: ILoginView_login, authControler: IAuthController) {
-    this._loginView = iLoginView;
-    this._authController = authControler;
-
-    this._loginSevice = new loginSevice();
-    this._authenTicationSevice = new MockAuthenticationService();
-
-    this._loginModel = new login_loginModel();
-    this._playerModel = new login_playerModel();
+  initLoginView(loginView: ILoginView) {
+    this._loginView = loginView;
   }
 
-  RegisterEvents() {
-    this._playerModel.registerEvent();
+  initLoginService() {
+    this._loginSevice = new LoginSevice(this);
+  }
 
-    this._loginModel.init(this._loginSevice);
+  initMockAuthenTicationService() {
+    this._mockAuthenTicationSevice = new MockAuthenticationService();
+  }
 
-    this._loginSevice.Init(this);
+  initLoginModel() {
+    this._loginModel = new LoginModel(this._loginSevice);
+  }
 
+  init_playerInfo() {
+    this._playerInfo = new PlayerInfo();
+  }
+
+  //registerEvent
+  registerEvents() {
     this._loginView.init(this);
-  }
-
-  moveRegisterNodeToScreen() {
-    this._authController.moveRegisterNodeToCenter(this.node);
-  }
-
-  movePlayNowNodeToScreen() {
-    this._authController.movePlayNowNodeToCenter(this.node);
+    this._playerInfo.init();
   }
 
   onLogin(data: loginData) {
-    let loginResult = this._authenTicationSevice.process(data.userName, data.password);
+    let loginResult = this._mockAuthenTicationSevice.process(data.userName, data.password);
 
-    let playerInfo = this._authenTicationSevice.getPlayerInfoPackage(data.userName, data.password);
+    let playerInfo = this._mockAuthenTicationSevice.getPlayerInfoPackage(data.userName, data.password);
 
     EventListener.dispatchEvent(GAME_EVENT.SEND_LOGIN_RESULT_TO_LOGIN_MODEL, loginResult);
 
-    EventListener.dispatchEvent(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_MODEL, playerInfo);
+    EventListener.dispatchEvent(GAME_EVENT.SEND_TO_PLAYER_INFO, playerInfo);
   }
 
   switchToTheHomeScreen() {
@@ -82,39 +87,40 @@ export class loginControler extends Component implements ILoginController {
 
     let spineCloud = nodeCloud.getComponent(sp.Skeleton);
 
-    let entry = spineCloud.setAnimation(0, "transition_to_lucky", false);
+    let entry = spineCloud.setAnimation(0, SKELETON_KEY_WORK.TRANSITION_TO_LUCKY, false);
 
     spineCloud.setTrackCompleteListener(entry, (x: any, ev: any) => {
       ScreenManager.instance.removeAllEffects();
     });
+
     spineCloud.setTrackEventListener(entry, (x: any, ev: any) => {
-      if (ev && ev.data && ev.data.name && ev.data.name == "transition") {
+      if (ev && ev.data && ev.data.name && ev.data.name == SKELETON_KEY_WORK.NAME_OF_RETURN_EVENT) {
         let play_screen = ScreenManager.instance.assetBundle.get(Path.HOME_SCREEN, Prefab)!;
 
         ScreenManager.instance.pushScreen(play_screen, (screen: BaseScreen) => {}, true);
       }
     });
   }
-
+  //loginView show message
   resetShowMessenger() {
     this._loginView.showUserNameWrong("");
 
     this._loginView.showPasswordWrong("");
   }
 
-  setShowMsg_userNameWrong() {
+  showUserNameError() {
     this._loginView.showUserNameWrong(MESSENGER_DEFINE.USER_NAME_WRONG);
 
     this._loginView.showPasswordWrong("");
   }
 
-  setShowMsg_passwordWrong() {
+  showPasswordError() {
     this._loginView.showPasswordWrong(MESSENGER_DEFINE.PASSWORD_WRONG);
 
     this._loginView.showUserNameWrong("");
   }
 
-  setShowMsg_userNameAndPasswordWrong() {
+  showUserNameAndPasswordError() {
     this._loginView.showUserNameWrong(MESSENGER_DEFINE.USER_NAME_WRONG);
 
     this._loginView.showPasswordWrong(MESSENGER_DEFINE.PASSWORD_WRONG);

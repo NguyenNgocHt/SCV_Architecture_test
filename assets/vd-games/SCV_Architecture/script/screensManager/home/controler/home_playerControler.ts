@@ -1,23 +1,23 @@
 import { _decorator, Component, Node } from "cc";
-import { IPlayerModel_Home, IPlayerSevice_home, IPlayerView_home, IHomeSevice } from "../../../interfaces/home_interfaces";
-import { home_playerSevice } from "../sevice/home_playerSvice";
-import { home_playerView } from "../view/home_playerView";
+import { IPlayerModel_Home, IPlayerSevice_home, IPlayerView, IHomeSevice } from "../../../interfaces/Home_interfaces";
+import { Home_playerSevice } from "../sevice/Home_playerSvice";
+import { Home_playerView } from "../view/Home_playerView";
 import { EventListener } from "../../../../../../vd-framework/common/EventListener";
 import { GAME_EVENT } from "../../../network/networkDefine";
-import { Player_ID } from "../../../dataModel/homeDataType_sendToSever";
+import { Player_ID } from "../../../dataModel/HomeDataType_sendToSever";
 import { CLIENT_COMMAN_ID_OP } from "../../../common/define";
 import { playerInfoPackage } from "../../../dataModel/playerDataType";
-import { home_playerModel } from "../model/home_playerModel";
-import { mockHomeSevice } from "../sevice/mockHomeSevice";
+import { Home_playerModel } from "../model/Home_playerModel";
+import { MockHomeSevice } from "../sevice/MockHomeSevice";
 const { ccclass, property } = _decorator;
 
-@ccclass("home_playerControler")
-export class home_playerControler extends Component {
-  @property(home_playerView)
-  PlayerView: home_playerView = null;
+@ccclass("Home_playerControler")
+export class Home_playerControler extends Component {
+  @property(Home_playerView)
+  PlayerView: Home_playerView = null;
 
   private _playerSevice: IPlayerSevice_home = null;
-  private _playerView: IPlayerView_home = null;
+  private _playerView: IPlayerView = null;
   private _playerModel: IPlayerModel_Home = null;
   private _mockHomeSevice: IHomeSevice = null;
 
@@ -45,11 +45,11 @@ export class home_playerControler extends Component {
     this.getPlayerIDFromPlayerSevice();
   }
 
-  initInterfaces(iPlayerView: IPlayerView_home) {
-    this._playerSevice = new home_playerSevice();
-    this._mockHomeSevice = new mockHomeSevice();
+  initInterfaces(iPlayerView: IPlayerView) {
+    this._playerSevice = new Home_playerSevice();
+    this._mockHomeSevice = new MockHomeSevice();
 
-    this._playerModel = new home_playerModel();
+    this._playerModel = new Home_playerModel();
 
     this._playerView = iPlayerView;
   }

@@ -1,12 +1,12 @@
-import { loginResult } from "./../../../dataModel/loginDataType_sendToClient";
+import { loginResult } from "./../../../dataModel/LoginDataType_sendToClient";
 import { _decorator } from "cc";
-import { IAuthenticationService } from "../../../interfaces/login_interfaces";
+import { IMockAuthenticationService } from "../../../interfaces/Login_interfaces";
 import { CLIENT_COMMAN_ID_IP, SEVER_COMMAN_ID_OP } from "../../../common/define";
 import { playerInfoPackage } from "../../../dataModel/playerDataType";
 const { ccclass, property } = _decorator;
 
 @ccclass("MockAuthenticationService")
-export class MockAuthenticationService implements IAuthenticationService {
+export class MockAuthenticationService implements IMockAuthenticationService {
   private _isStatusLogin: boolean = false;
   private _isStatusUseName: boolean = false;
   private _isStatusPassword: boolean = false;

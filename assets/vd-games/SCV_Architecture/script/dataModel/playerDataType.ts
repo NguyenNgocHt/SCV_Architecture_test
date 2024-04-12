@@ -10,6 +10,5 @@ export type playerInfo = {
   playerID: number;
   playerName: string;
   avatarID: number;
-  password: string;
   money: number;
 };

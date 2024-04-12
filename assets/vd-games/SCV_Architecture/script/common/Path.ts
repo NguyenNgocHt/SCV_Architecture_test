@@ -16,3 +16,7 @@ export const MESSENGER_DEFINE = {
   USER_NAME_WRONG: "input user name wrong",
   PASSWORD_WRONG: "input password wrong",
 };
+export const SKELETON_KEY_WORK = {
+  TRANSITION_TO_LUCKY: "transition_to_lucky",
+  NAME_OF_RETURN_EVENT: "transition",
+};

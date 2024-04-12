@@ -2,11 +2,11 @@ import { Sprite } from "cc";
 import { Label } from "cc";
 import { _decorator, Component, Node } from "cc";
 import { Global } from "../../../common/Global";
-import { IPlayerView_home } from "../../../interfaces/home_interfaces";
+import { IPlayerView } from "../../../interfaces/Home_interfaces";
 const { ccclass, property } = _decorator;
 
-@ccclass("home_playerView")
-export class home_playerView extends Component implements IPlayerView_home {
+@ccclass("Home_playerView")
+export class Home_playerView extends Component implements IPlayerView {
   @property(Label)
   UserName: Label = null;
   @property(Label)

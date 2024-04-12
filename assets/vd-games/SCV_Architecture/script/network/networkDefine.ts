@@ -50,7 +50,7 @@ export const GAME_EVENT = {
 
   //director_sendDataToScreenControler
   SEND_LOGIN_RESULT_TO_LOGIN_MODEL: "send data login result to login model",
-  SEND_PLAYER_INFO_TO_PLAYER_MODEL: "send palyer info to player model",
+  SEND_TO_PLAYER_INFO: "send to player info",
   SEND_PLAYER_INFO_TO_PLAYER_MODEL_IN_HOME: "send player info to home_player model",
 
   //loginModel
@@ -70,4 +70,5 @@ export const GAME_EVENT = {
 
   //home playerModel
   SEND_PLAYER_INFO_TO_PLAYER_CONTROLER_IN_HOME: "send player info to player controler in home",
+  //player info
 };
