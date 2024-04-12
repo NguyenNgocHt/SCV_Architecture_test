@@ -24,10 +24,10 @@ export class playNowControler extends Component implements IPlayNowController {
   }
 
   moveLoginPopup() {
-    this._authController.loginNodeControl(this.node);
+    this._authController.moveloginNodeToCenter(this.node);
   }
 
   callMoveRegisterNode() {
-    this._authController.registerNodeControl(this.node);
+    this._authController.moveRegisterNodeToCenter(this.node);
   }
 }

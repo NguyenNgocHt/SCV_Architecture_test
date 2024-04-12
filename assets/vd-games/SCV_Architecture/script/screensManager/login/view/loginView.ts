@@ -1,5 +1,5 @@
 import { _decorator, Component, Node } from "cc";
-import { loginDataType_sendToSever } from "../../../dataModel/loginDataType_sendToSever";
+import { loginData } from "../../../dataModel/loginDataType_sendToSever";
 import { EditBox } from "cc";
 import { CLIENT_COMMAN_ID_OP } from "../../../common/define";
 import { Label } from "cc";
@@ -24,30 +24,30 @@ export class loginView extends Component implements ILoginView_login {
     this._loginController = loginControler;
   }
 
-  onClickResgistrationButton() {
-    this._loginController.callMoveRegisterNode();
+  onClickResgistrationBtn() {
+    this._loginController.moveRegisterNodeToScreen();
   }
 
-  onClickPlayNowButton() {
-    this._loginController.callMovePlayNowNode();
+  onClickPlayNowBtn() {
+    this._loginController.movePlayNowNodeToScreen();
   }
 
-  onClickLoginButton() {
-    let loginData: loginDataType_sendToSever = null;
+  onClickLoginBtn() {
+    let loginData: loginData = null;
     loginData = {
       id: CLIENT_COMMAN_ID_OP.LOGIN_ID,
       userName: this.UserName.string,
       password: this.Password.string,
     };
     console.log("login data", loginData);
-    this._loginController.sendLoginDtaToSever(loginData);
+    this._loginController.onLogin(loginData);
   }
 
-  showMessenger_userNameWrong(msg: string) {
+  showUserNameWrong(msg: string) {
     this.NotifyForUserName.string = msg;
   }
 
-  showMessenger_passwordWrong(msg: string) {
+  showPasswordWrong(msg: string) {
     this.NotifyForPassword.string = msg;
   }
 

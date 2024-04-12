@@ -1,7 +1,7 @@
 import { _decorator, Component, log, assetManager, Prefab } from "cc";
 import AsyncTaskMgr from "../../../vd-framework/async-task/AsyncTaskMgr";
-import { VDAudioManager } from "../../../vd-framework/audio/VDAudioManager";
-import VDScreenManager from "../../../vd-framework/ui/VDScreenManager";
+import { AudioManager } from "../../../vd-framework/audio/AudioManager";
+import ScreenManager from "../../../vd-framework/ui/ScreenManager";
 import { Config } from "./common/Config";
 import { Path } from "./common/Path";
 const { ccclass, property } = _decorator;
@@ -10,21 +10,20 @@ const { ccclass, property } = _decorator;
 export class mainGame_Scene extends Component {
   onLoad() {
     this.registerEvent();
-    log("@ dm_Scene: onLoad  !!!");
+    log("@ mainGame_Scene: onLoad  !!!");
     let bundle = assetManager.getBundle("bundle_" + Config.GAME_NAME);
     if (bundle) {
-      this.node.addComponent(VDScreenManager);
+      this.node.addComponent(ScreenManager);
 
-      VDScreenManager.instance.assetBundle = bundle;
-      VDScreenManager.instance.setupCommon();
+      ScreenManager.instance.assetBundle = bundle;
+      ScreenManager.instance.setupCommon();
 
       bundle.load(Path.LOADING_SCREEN, Prefab, (error, prefab) => {
         if (error) {
           log(`bundle.load: ${error}`);
         } else {
           log("load loading sucess");
-          // VDScreenManager.instance.initWithRootScreen(prefab);
-          VDScreenManager.instance.pushScreen(prefab, (screen) => {
+          ScreenManager.instance.pushScreen(prefab, (screen) => {
             log("pushScreen " + screen.name + " success!");
           });
         }
@@ -33,7 +32,7 @@ export class mainGame_Scene extends Component {
   }
   registerEvent() {}
   onDestroy() {
-    VDAudioManager.instance.destroy();
+    AudioManager.instance.destroy();
     AsyncTaskMgr.instance.stop();
   }
 }

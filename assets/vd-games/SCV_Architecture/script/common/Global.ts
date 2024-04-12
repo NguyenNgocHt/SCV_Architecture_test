@@ -1,5 +1,5 @@
 import { _decorator, SpriteAtlas, SpriteFrame } from "cc";
-import VDScreenManager from "../../../../vd-framework/ui/VDScreenManager";
+import ScreenManager from "../../../../vd-framework/ui/ScreenManager";
 import { Path } from "./Path";
 const { ccclass, property } = _decorator;
 
@@ -95,7 +95,7 @@ export class Global {
   getAvatarByID(id: number): SpriteFrame {
     let avatarName = "avatar" + id.toString();
     let avatarGroupPath = Path.AVATAR_TEXTURE_PACKER;
-    let texturePacker = VDScreenManager.instance.assetBundle.get(avatarGroupPath, SpriteAtlas);
+    let texturePacker = ScreenManager.instance.assetBundle.get(avatarGroupPath, SpriteAtlas);
     let spriteFrameAvatar = texturePacker.getSpriteFrame(avatarName);
     return spriteFrameAvatar;
   }

@@ -1,15 +1,15 @@
 import { _decorator, Component, Prefab, instantiate, sp } from "cc";
-import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
+import { EventListener } from "../../../../../../vd-framework/common/EventListener";
 import { GAME_EVENT } from "../../../network/networkDefine";
-import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
-import VDBaseScreen from "../../../../../../vd-framework/ui/VDBaseScreen";
+import ScreenManager from "../../../../../../vd-framework/ui/ScreenManager";
+import BaseScreen from "../../../../../../vd-framework/ui/BaseScreen";
 import { MESSENGER_DEFINE, Path } from "../../../common/Path";
 import { IAuthController, IAuthenticationService, ILoginController, ILoginModel_login, ILoginSevice_login, ILoginView_login, IPlayerModel_login } from "../../../interfaces/login_interfaces";
 import { loginView } from "../view/loginView";
 import { loginSevice } from "../sevice/loginSevice";
 import { login_loginModel } from "../model/login_loginModel";
 import { login_playerModel } from "../model/login_playerModel";
-import { loginDataType_sendToSever } from "../../../dataModel/loginDataType_sendToSever";
+import { loginData } from "../../../dataModel/loginDataType_sendToSever";
 import { MockAuthenticationService } from "../sevice/MockAuthenticationService";
 const { ccclass, property } = _decorator;
 
@@ -46,79 +46,77 @@ export class loginControler extends Component implements ILoginController {
   }
 
   RegisterEvents() {
-    this._loginSevice.registerEvent();
-
-    this._loginModel.registerEvent();
-
     this._playerModel.registerEvent();
+
+    this._loginModel.init(this._loginSevice);
 
     this._loginSevice.Init(this);
 
     this._loginView.init(this);
   }
 
-  callMoveRegisterNode() {
-    this._authController.registerNodeControl(this.node);
+  moveRegisterNodeToScreen() {
+    this._authController.moveRegisterNodeToCenter(this.node);
   }
 
-  callMovePlayNowNode() {
-    this._authController.playNowNodeControl(this.node);
+  movePlayNowNodeToScreen() {
+    this._authController.movePlayNowNodeToCenter(this.node);
   }
 
-  sendLoginDtaToSever(data: loginDataType_sendToSever) {
+  onLogin(data: loginData) {
     let loginResult = this._authenTicationSevice.process(data.userName, data.password);
 
     let playerInfo = this._authenTicationSevice.getPlayerInfoPackage(data.userName, data.password);
 
-    VDEventListener.dispatchEvent(GAME_EVENT.SEND_LOGIN_RESULT_TO_LOGIN_MODEL, loginResult);
+    EventListener.dispatchEvent(GAME_EVENT.SEND_LOGIN_RESULT_TO_LOGIN_MODEL, loginResult);
 
-    VDEventListener.dispatchEvent(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_MODEL, playerInfo);
+    EventListener.dispatchEvent(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_MODEL, playerInfo);
   }
 
   switchToTheHomeScreen() {
     this.resetShowMessenger();
-    let pfFxCloud = VDScreenManager.instance.assetBundle.get(Path.TRANSITION_CLOUD, Prefab)!;
+    let pfFxCloud = ScreenManager.instance.assetBundle.get(Path.TRANSITION_CLOUD, Prefab)!;
     let nodeCloud = instantiate(pfFxCloud);
 
-    VDScreenManager.instance.showEffect(nodeCloud);
+    ScreenManager.instance.showEffect(nodeCloud);
 
     let spineCloud = nodeCloud.getComponent(sp.Skeleton);
 
     let entry = spineCloud.setAnimation(0, "transition_to_lucky", false);
 
     spineCloud.setTrackCompleteListener(entry, (x: any, ev: any) => {
-      VDScreenManager.instance.removeAllEffects();
+      ScreenManager.instance.removeAllEffects();
     });
     spineCloud.setTrackEventListener(entry, (x: any, ev: any) => {
       if (ev && ev.data && ev.data.name && ev.data.name == "transition") {
-        let play_screen = VDScreenManager.instance.assetBundle.get(Path.HOME_SCREEN, Prefab)!;
+        let play_screen = ScreenManager.instance.assetBundle.get(Path.HOME_SCREEN, Prefab)!;
 
-        VDScreenManager.instance.pushScreen(play_screen, (screen: VDBaseScreen) => {}, true);
+        ScreenManager.instance.pushScreen(play_screen, (screen: BaseScreen) => {}, true);
       }
     });
   }
 
   resetShowMessenger() {
-    this._loginView.showMessenger_userNameWrong("");
+    this._loginView.showUserNameWrong("");
 
-    this._loginView.showMessenger_passwordWrong("");
+    this._loginView.showPasswordWrong("");
   }
 
   setShowMsg_userNameWrong() {
-    this._loginView.showMessenger_userNameWrong(MESSENGER_DEFINE.USER_NAME_WRONG);
+    this._loginView.showUserNameWrong(MESSENGER_DEFINE.USER_NAME_WRONG);
 
-    this._loginView.showMessenger_passwordWrong("");
+    this._loginView.showPasswordWrong("");
   }
 
   setShowMsg_passwordWrong() {
-    this._loginView.showMessenger_passwordWrong(MESSENGER_DEFINE.PASSWORD_WRONG);
+    this._loginView.showPasswordWrong(MESSENGER_DEFINE.PASSWORD_WRONG);
 
-    this._loginView.showMessenger_userNameWrong("");
+    this._loginView.showUserNameWrong("");
   }
 
   setShowMsg_userNameAndPasswordWrong() {
-    this._loginView.showMessenger_userNameWrong(MESSENGER_DEFINE.USER_NAME_WRONG);
+    this._loginView.showUserNameWrong(MESSENGER_DEFINE.USER_NAME_WRONG);
 
-    this._loginView.showMessenger_passwordWrong(MESSENGER_DEFINE.PASSWORD_WRONG);
+    this._loginView.showPasswordWrong(MESSENGER_DEFINE.PASSWORD_WRONG);
   }
 }

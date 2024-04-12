@@ -1,9 +1,9 @@
 import { _decorator, Component, sys, Label } from "cc";
 import { ILoadingController, ILoadingView_loading } from "../../../interfaces/loading_interfaces";
 import { ProgressBar } from "cc";
-import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
+import ScreenManager from "../../../../../../vd-framework/ui/ScreenManager";
 import { PATH } from "../../../common/define";
-import VDBasePopup from "../../../../../../vd-framework/ui/VDBasePopup";
+import BasePopup from "../../../../../../vd-framework/ui/BasePopup";
 import { PopupNotify } from "../../../popups/PopupNotify";
 import { Path } from "../../../common/Path";
 const { ccclass, property } = _decorator;
@@ -23,7 +23,7 @@ export class loadingView extends Component implements ILoadingView_loading {
   startView() {
     this.loadingProgress.progress = 0;
     this.updateProgressBar(0);
-    VDScreenManager.instance.assetBundle.load(Path.POPUP_NOTIFY, (err, data) => {
+    ScreenManager.instance.assetBundle.load(Path.POPUP_NOTIFY, (err, data) => {
       if (!err) {
         this._loadingControler.startLoadingAsset();
       } else {
@@ -41,18 +41,18 @@ export class loadingView extends Component implements ILoadingView_loading {
     return this.loadingProgress.progress;
   }
   showMessenger(mesenger: string) {
-    VDScreenManager.instance.showPopupFromPrefabName(
+    ScreenManager.instance.showPopupFromPrefabName(
       PATH.POPUP_NOTIFY,
-      (popup: VDBasePopup) => {
+      (popup: BasePopup) => {
         let popupDisplay = popup as PopupNotify;
         popupDisplay.setupPopup(mesenger, [
           () => {
-            VDScreenManager.instance.hidePopup(true);
+            ScreenManager.instance.hidePopup(true);
 
             this._loadingControler.startLoadingAsset();
           },
           () => {
-            VDScreenManager.instance.hidePopup(true);
+            ScreenManager.instance.hidePopup(true);
           },
         ]);
       },

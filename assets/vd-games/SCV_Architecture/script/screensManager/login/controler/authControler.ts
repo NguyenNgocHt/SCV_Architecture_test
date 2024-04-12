@@ -58,15 +58,15 @@ export class authControler extends Component implements IAuthController {
     this._loginControler.init(this);
   }
 
-  registerNodeControl(centerNode: Node) {
+  moveRegisterNodeToCenter(centerNode: Node) {
     this._authView.NodeMovingToLeft(centerNode, this.RegisterController.node);
   }
 
-  loginNodeControl(centerNode: Node) {
+  moveloginNodeToCenter(centerNode: Node) {
     this._authView.NodeMovingToLeft(centerNode, this.LoginController.node);
   }
 
-  playNowNodeControl(centerNode: Node) {
+  movePlayNowNodeToCenter(centerNode: Node) {
     this._authView.NodeMovingToLeft(centerNode, this.PlayNowControler.node);
   }
 }

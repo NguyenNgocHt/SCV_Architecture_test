@@ -2,7 +2,7 @@ import { _decorator, Component, Node } from "cc";
 import { IPlayerModel_Home, IPlayerSevice_home, IPlayerView_home, IHomeSevice } from "../../../interfaces/home_interfaces";
 import { home_playerSevice } from "../sevice/home_playerSvice";
 import { home_playerView } from "../view/home_playerView";
-import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
+import { EventListener } from "../../../../../../vd-framework/common/EventListener";
 import { GAME_EVENT } from "../../../network/networkDefine";
 import { Player_ID } from "../../../dataModel/homeDataType_sendToSever";
 import { CLIENT_COMMAN_ID_OP } from "../../../common/define";
@@ -34,11 +34,11 @@ export class home_playerControler extends Component {
   }
 
   registerEvent_playerControler() {
-    VDEventListener.on(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_CONTROLER_IN_HOME, this.setPlayerView.bind(this));
+    EventListener.on(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_CONTROLER_IN_HOME, this.setPlayerView.bind(this));
   }
 
   offEvent() {
-    VDEventListener.off(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_CONTROLER_IN_HOME, this.setPlayerView.bind(this));
+    EventListener.off(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_CONTROLER_IN_HOME, this.setPlayerView.bind(this));
   }
 
   start() {
@@ -64,7 +64,7 @@ export class home_playerControler extends Component {
 
     let playerInfo = this._mockHomeSevice.getPlayerInfoByPlayerID(playerID);
 
-    VDEventListener.dispatchEvent(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_MODEL_IN_HOME, playerInfo);
+    EventListener.dispatchEvent(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_MODEL_IN_HOME, playerInfo);
   }
 
   setPlayerView(playerInfo: playerInfoPackage) {

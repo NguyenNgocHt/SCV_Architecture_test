@@ -2190,7 +2190,7 @@
     },
     "component": "",
     "_componentId": "8d4adZxanNGNIYzDPfW7q8G",
-    "handler": "onClickLoginButton",
+    "handler": "onClickLoginBtn",
     "customEventData": ""
   },
   {
@@ -2603,7 +2603,7 @@
     },
     "component": "",
     "_componentId": "8d4adZxanNGNIYzDPfW7q8G",
-    "handler": "onClickResgistrationButton",
+    "handler": "onClickResgistrationBtn",
     "customEventData": ""
   },
   {
@@ -2811,7 +2811,7 @@
     },
     "component": "",
     "_componentId": "8d4adZxanNGNIYzDPfW7q8G",
-    "handler": "onClickPlayNowButton",
+    "handler": "onClickPlayNowBtn",
     "customEventData": ""
   },
   {

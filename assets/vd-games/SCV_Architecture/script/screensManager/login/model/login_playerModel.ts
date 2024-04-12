@@ -1,5 +1,5 @@
 import { _decorator } from "cc";
-import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
+import { EventListener } from "../../../../../../vd-framework/common/EventListener";
 import { GAME_EVENT } from "../../../network/networkDefine";
 import { playerInfoPackage } from "../../../dataModel/playerDataType";
 import { sys } from "cc";
@@ -12,11 +12,11 @@ export class login_playerModel implements IPlayerModel_login {
   _playerInfo: playerInfoPackage = null;
 
   registerEvent() {
-    VDEventListener.on(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_MODEL, this.handlePlayerInfo.bind(this));
+    EventListener.on(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_MODEL, this.handlePlayerInfo.bind(this));
   }
 
   offEvent() {
-    VDEventListener.off(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_MODEL, this.handlePlayerInfo.bind(this));
+    EventListener.off(GAME_EVENT.SEND_PLAYER_INFO_TO_PLAYER_MODEL, this.handlePlayerInfo.bind(this));
   }
 
   handlePlayerInfo(playerInfo: playerInfoPackage) {

@@ -4,8 +4,8 @@ import { audioSevice } from "../sevice/audioSevice";
 import { assetsSevice } from "../sevice/assetsSevice";
 import { loadingView } from "../view/loadingView";
 import { Config } from "../../../common/Config";
-import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
-import VDBaseScreen from "../../../../../../vd-framework/ui/VDBaseScreen";
+import ScreenManager from "../../../../../../vd-framework/ui/ScreenManager";
+import BaseScreen from "../../../../../../vd-framework/ui/BaseScreen";
 import { PATH } from "../../../common/define";
 const { ccclass, property } = _decorator;
 
@@ -87,10 +87,10 @@ export class loadingControler extends Component implements ILoadingController {
   }
 
   screenChange() {
-    let play_screen = VDScreenManager.instance.assetBundle.get(PATH.LOGIN_SCREEN, Prefab)!;
-    VDScreenManager.instance.pushScreen(
+    let play_screen = ScreenManager.instance.assetBundle.get(PATH.LOGIN_SCREEN, Prefab)!;
+    ScreenManager.instance.pushScreen(
       play_screen,
-      (screen: VDBaseScreen) => {
+      (screen: BaseScreen) => {
       },
       true
     );

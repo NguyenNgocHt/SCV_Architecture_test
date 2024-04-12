@@ -1,5 +1,5 @@
 import { _decorator } from "cc";
-import { VDEventListener } from "../../../../../../vd-framework/common/VDEventListener";
+import { EventListener } from "../../../../../../vd-framework/common/EventListener";
 import { GAME_EVENT } from "../../../network/networkDefine";
 import { loginResult } from "../../../dataModel/loginDataType_sendToClient";
 import { ILoginController, ILoginSevice_login } from "../../../interfaces/login_interfaces";
@@ -12,19 +12,12 @@ export class loginSevice implements ILoginSevice_login {
   Init(loginController: ILoginController) {
     this._loginController = loginController;
   }
-
-  registerEvent() {
-    VDEventListener.on(GAME_EVENT.SEND_LOGIN_RESULT_TO_LOGIN_SEVICE, this.checkLoginResultData.bind(this));
-  }
-
-  offEvent() {
-    VDEventListener.off(GAME_EVENT.SEND_LOGIN_RESULT_TO_LOGIN_SEVICE, this.checkLoginResultData.bind(this));
-  }
-
+  
   checkLoginResultData(loginResult: loginResult) {
     let checkLoginResult = loginResult;
 
     if (checkLoginResult.isLogin) {
+      console.log(this._loginController);
       this._loginController.switchToTheHomeScreen();
     } else {
       if (!checkLoginResult.isUserName) {

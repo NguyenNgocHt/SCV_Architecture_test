@@ -1,6 +1,6 @@
 import { loginResult } from "../dataModel/loginDataType_sendToClient";
 import { playerInfoPackage } from "../dataModel/playerDataType";
-import { loginDataType_sendToSever } from "../dataModel/loginDataType_sendToSever";
+import { loginData } from "../dataModel/loginDataType_sendToSever";
 
 export interface IAuthView_login {
   NodeMovingToLeft(CenterNode, rightNode): void;
@@ -11,9 +11,9 @@ export interface IRegisterSevice_login {
 }
 
 export interface ILoginView_login {
-  showMessenger_userNameWrong(msg): void;
+  showUserNameWrong(msg): void;
 
-  showMessenger_passwordWrong(msg): void;
+  showPasswordWrong(msg): void;
 
   resetAllMessenger(): void;
 
@@ -26,12 +26,11 @@ export interface IRegisterView {
 
 export interface ILoginSevice_login {
   Init(loginController: ILoginController);
-
-  registerEvent();
+  checkLoginResultData(loginResult: loginResult);
 }
 
 export interface ILoginModel_login {
-  registerEvent();
+  init(loginService: ILoginSevice_login);
 }
 
 export interface IPlayerModel_login {
@@ -45,21 +44,21 @@ export interface IAuthenticationService {
 }
 
 export interface IAuthController {
-  registerNodeControl(centerNode);
+  moveRegisterNodeToCenter(centerNode);
 
-  loginNodeControl(centerNode);
+  moveloginNodeToCenter(centerNode);
 
-  playNowNodeControl(centerNode);
+  movePlayNowNodeToCenter(centerNode);
 }
 
 export interface ILoginController {
   init(authController: IAuthController);
 
-  callMoveRegisterNode();
+  moveRegisterNodeToScreen();
 
-  callMovePlayNowNode();
+  movePlayNowNodeToScreen();
 
-  sendLoginDtaToSever(data: loginDataType_sendToSever);
+  onLogin(data: loginData);
 
   switchToTheHomeScreen();
 

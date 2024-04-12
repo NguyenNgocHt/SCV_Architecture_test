@@ -1,7 +1,7 @@
 import { ILoadingController, IAudioModel_loading, IPrefabModel_loading } from "../../../interfaces/loading_interfaces";
 import { _decorator, sys, Asset, AudioClip } from "cc";
 import { IAssetsSevice_loading, IImageModel_loading } from "../../../interfaces/loading_interfaces";
-import VDScreenManager from "../../../../../../vd-framework/ui/VDScreenManager";
+import ScreenManager from "../../../../../../vd-framework/ui/ScreenManager";
 import { MESENGER } from "../../../common/define";
 import { imageModel } from "../model/imageModel";
 import { prefabModel } from "../model/prefabModel";
@@ -62,7 +62,7 @@ export class assetsSevice implements IAssetsSevice_loading {
     let path = this._items[index];
     console.log("_loadAsset  " + path);
     if (this._isDirectory(path)) {
-      VDScreenManager.instance.assetBundle.loadDir(
+      ScreenManager.instance.assetBundle.loadDir(
         path,
         (finished, total) => {
           console.log(`items #${index}:  ${finished} / ${total} `);
@@ -97,7 +97,7 @@ export class assetsSevice implements IAssetsSevice_loading {
         }
       );
     } else {
-      VDScreenManager.instance.assetBundle.load(
+      ScreenManager.instance.assetBundle.load(
         path,
         (finished, total) => {
           console.log(`${finished} / ${total} `);

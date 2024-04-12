@@ -29,11 +29,11 @@ export class registerControler extends Component implements IRegisterController 
   }
 
   callMoveLoginNode() {
-    this._authController.loginNodeControl(this.node);
+    this._authController.moveloginNodeToCenter(this.node);
   }
 
   callMovePlayNowNode() {
-    this._authController.playNowNodeControl(this.node);
+    this._authController.movePlayNowNodeToCenter(this.node);
   }
 
   checkRegisterData(msgData) {

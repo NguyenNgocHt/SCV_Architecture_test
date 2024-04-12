@@ -4,7 +4,7 @@ export type registerDataType_sendToSever = {
   password: string;
   passwordConfirm: string;
 };
-export type loginDataType_sendToSever = {
+export type loginData = {
   id: number;
   userName: string;
   password: string;
